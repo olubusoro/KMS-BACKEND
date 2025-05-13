@@ -12,7 +12,7 @@ namespace CsKmsBackend.Application.DependencyInjection
 			services.AddScoped<IUserService, UserService>();
 
 
-			retu
+			return services;
 		}
 	}
 }

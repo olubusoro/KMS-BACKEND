@@ -15,4 +15,9 @@
     <ProjectReference Include="..\CsKmsBackend.Domain\CsKmsBackend.Domain.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Folder Include="DTOs\Conversions\" />
+		<Folder Include="Services\" />
+	</ItemGroup>
+
 </Project>
