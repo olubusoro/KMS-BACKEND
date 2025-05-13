@@ -1,3 +1,4 @@
+using CsKmsBackend.Infrastructure.DependencyInjection;
 using DotNetEnv;
 
 Env.Load();
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructureService(builder.Configuration);
 
 var app = builder.Build();
 
