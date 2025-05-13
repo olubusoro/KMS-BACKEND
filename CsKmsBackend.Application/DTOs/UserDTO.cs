@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CsKmsBackend.Domain.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace CsKmsBackend.Application.DTOs
 {
@@ -6,7 +7,8 @@ namespace CsKmsBackend.Application.DTOs
 		int Id,
 		[Required] string Name,
 		[Required] string Email,
-		[Required] string Role,
-		[Required, MinLength(1, ErrorMessage = "Please pick one department")] List<int> Departments
+		[Required] UserRole Role,
+		[Required, MinLength(1, ErrorMessage = "Please pick one department")] List<int> Departments,
+		DateTime CreatedAt
 		);
 }
