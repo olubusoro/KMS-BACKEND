@@ -12,7 +12,12 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
+				var getUser = await GetByAsync(u=> u.Email ==  entity.Email);
+				if (getUser is not null)
+					return new ResponseKms(false, "User aleady exists");
+				entity.Password = BCrypt.Net.BCrypt.HashPassword(entity.Password);
 				var user = context.Users.Add(entity).Entity;
+
 				await context.SaveChangesAsync();
 				return user is not null && user.Id > 0 ? new ResponseKms(true, "user created successfully") 
 					: new ResponseKms(false, "Error occured while creating user");
@@ -28,7 +33,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			{
 				var user = await FindByIdAsync(id);
 				if(user is null)
-					return new ResponseKms(false, $"user with {id} does not exist");
+					return new ResponseKms(false, $"user with {id} not found");
 				context.Users.Remove(user);
 				await context.SaveChangesAsync();
 				return new ResponseKms(true, $"User with {id} has been deleted successfully");
@@ -85,12 +90,13 @@ namespace CsKmsBackend.Infrastructure.Repositories
 				var user = await FindByIdAsync(entity.Id);
 				if (user is null)
 					return new ResponseKms(false, "user not found");
+				entity.CreatedAt = user.CreatedAt;
 				context.Entry(user).State = EntityState.Detached;
 				context.Users.Update(entity);
 				await context.SaveChangesAsync();
 				return new ResponseKms(true, "user successfully updated");
 			}
-			catch(Exception ex)
+			catch
 			{
 				return new ResponseKms(false, "Error ocurred while trying to update user");
 			}
