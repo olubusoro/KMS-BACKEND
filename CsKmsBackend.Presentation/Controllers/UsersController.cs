@@ -1,12 +1,14 @@
 ﻿using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CsKmsBackend.Presentation.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize(Roles ="SuperAdmin")]
 	public class UsersController(IUserService userService) : ControllerBase
 	{
 		// POST: api/users
