@@ -31,10 +31,10 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 
 		public static IEnumerable<UserDTO> ToDTO(this IEnumerable<User> users)
 		{
-			IEnumerable<UserDTO> userDTOs = new List<UserDTO>();
+			var userDTOs = new List<UserDTO>();
 			foreach (var user in users)
 			{
-				userDTOs.Append(new UserDTO(user.Id,
+				userDTOs.Add(new UserDTO(user.Id,
 								user.Name,
 								user.Email,
 								user.Role,

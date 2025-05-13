@@ -33,10 +33,10 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			{
 				var user = await FindByIdAsync(id);
 				if(user is null)
-					return new ResponseKms(false, $"user with {id} not found");
+					return new ResponseKms(false, $"user with id {id} not found");
 				context.Users.Remove(user);
 				await context.SaveChangesAsync();
-				return new ResponseKms(true, $"User with {id} has been deleted successfully");
+				return new ResponseKms(true, $"User with id {id} has been deleted successfully");
 			}catch(Exception ex)
 			{
 				return new ResponseKms(false, ex.Message);
@@ -91,6 +91,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 				if (user is null)
 					return new ResponseKms(false, "user not found");
 				entity.CreatedAt = user.CreatedAt;
+				entity.Password = user.Password;
 				context.Entry(user).State = EntityState.Detached;
 				context.Users.Update(entity);
 				await context.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using CsKmsBackend.Application.Interfaces;
+﻿using CsKmsBackend.Application.DependencyInjection;
+using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Infrastructure.Data;
 using CsKmsBackend.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 
 			// Dependency Injection
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddApplicationService();
 
 			return services;
 		}
