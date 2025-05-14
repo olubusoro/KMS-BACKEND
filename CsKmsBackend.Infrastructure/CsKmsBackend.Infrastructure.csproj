@@ -21,7 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DependencyInjection\" />
+	  <Folder Include="Data\" />
+	  <Folder Include="DependencyInjection\" />
+	  <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

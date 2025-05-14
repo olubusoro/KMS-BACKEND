@@ -44,6 +44,15 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 					};
 				});
 
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowReactApp",
+					policy => policy
+						.WithOrigins("http://localhost:5173") // React dev server
+						.AllowAnyHeader()
+						.AllowAnyMethod());
+			});
+
 			return services;
 		}
 	}
