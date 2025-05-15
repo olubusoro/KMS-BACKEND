@@ -1,0 +1,20 @@
+﻿using CsKmsBackend.Domain.Models;
+using CsKmsBackend.Infrastructure.Data.Config;
+using Microsoft.EntityFrameworkCore;
+
+namespace CsKmsBackend.Infrastructure.Data
+{
+	public class KmsDbContext(DbContextOptions<KmsDbContext> options):DbContext(options) 
+	{
+		public DbSet<User> Users {  get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+
+			// Applies all configurations from the assembly of the specified type (e.g., BookConfiguration)
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+
+		}
+	}
+}
