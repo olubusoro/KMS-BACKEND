@@ -1,0 +1,10 @@
+[
+  {
+    "Id": 1,
+    "Name": "Super Admin",
+    "Email": "sa@kms.com",
+    "Password": "password123",
+    "Departments": [ 0 ],
+    "Role": 2
+  }
+]
