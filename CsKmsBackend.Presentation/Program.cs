@@ -1,3 +1,4 @@
+using CsKmsBackend.Infrastructure.Data.Seed;
 using CsKmsBackend.Infrastructure.DependencyInjection;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,6 +45,14 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
+}
+
+if (args.Contains("--seed"))
+{
+	Console.WriteLine("?? Running seed process...");
+	await SeedUsers.SeedAsync(app.Services);
+	Console.WriteLine("? Seeding complete.");
+	return; // exit after seeding
 }
 
 app.UseCors("AllowReactApp");
