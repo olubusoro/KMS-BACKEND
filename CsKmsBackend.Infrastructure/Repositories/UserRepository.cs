@@ -8,6 +8,19 @@ namespace CsKmsBackend.Infrastructure.Repositories
 {
 	public class UserRepository(KmsDbContext context) : IUserRepository
 	{
+		public async Task<ResponseKms> ChangePasswordAsync(User user, string password)
+		{
+			try { 
+				user.Password = BCrypt.Net.BCrypt.HashPassword(password);
+				context.Users.Update(user);
+				await context.SaveChangesAsync();
+				return new ResponseKms(true, "Password Changed successfully");
+			}
+			catch {
+				return new ResponseKms(false, "Error occurred while trying to change password");
+			}
+		}
+
 		public async Task<ResponseKms> CreateAsync(User entity)
 		{
 			try
@@ -82,6 +95,58 @@ namespace CsKmsBackend.Infrastructure.Repositories
 				return null;
 			}
 		}
+
+		public async Task<ResponseKms> ResetPasswordAsync(User user)
+		{
+			try
+			{
+				var password = "GenericPassword123";
+				user.Password = BCrypt.Net.BCrypt.HashPassword(password);
+				context.Users.Update(user);
+				await context.SaveChangesAsync();
+				return new ResponseKms(true, $"Password has been reset successfully");
+			}
+			catch
+			{
+				return new ResponseKms(false, "Error occurred while trying to reset password");
+			}
+		}
+
+		//private static string RandomPasswordGenerator(int length=10, int minNumbers = 2, int maxNumbers = 3) 
+		//{
+		//	if (length < minNumbers)
+		//		throw new ArgumentException("Length must be greater than or equal to the minimum number of digits.");
+
+		//	if (minNumbers > maxNumbers)
+		//		throw new ArgumentException("Minimum number of digits cannot be greater than the maximum.");
+
+		//	if (maxNumbers > length - 2)
+		//		throw new ArgumentException("Maximum number of digits cannot be greater than the length.");
+
+		//	Random random = new Random();
+		//	const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		//	const string numbers = "0123456789";
+
+		//	int countOfNumbers = random.Next(minNumbers, maxNumbers + 1);
+		//	int numberOfChars = length - countOfNumbers;
+
+		//	StringBuilder result = new StringBuilder(length);
+
+		//	// Add random letters
+		//	for (int i = 0; i < numberOfChars; i++)
+		//	{
+		//		result.Append(chars[random.Next(chars.Length)]);
+		//	}
+
+		//	// Add random numbers at random positions
+		//	for (int i = 0; i < countOfNumbers; i++)
+		//	{
+		//		int insertPosition = random.Next(result.Length + 1);
+		//		result.Insert(insertPosition, numbers[random.Next(numbers.Length)]);
+		//	}
+
+		//	return result.ToString();
+		//}
 
 		public async Task<ResponseKms> UpdateAsync(User entity)
 		{

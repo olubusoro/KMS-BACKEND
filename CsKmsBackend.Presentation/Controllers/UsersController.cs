@@ -60,5 +60,30 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		// PATCH or PUT: api/users/5/reset-password
+		
+		[HttpPatch("{id:int}/reset-password")]
+		public async Task<ActionResult<ResponseKms>> ResetPassword(int id)
+		{
+			var result = await userService.ResetUserPasswordAsync(id);
+
+			return result.Flag ? Ok(result) : BadRequest(result);
+		}
+	}
+
+
+	[Route("api/users")]
+	[ApiController]
+	[Authorize]
+	public class UserController(IUserService userService) : ControllerBase
+	{
+		[HttpPatch("{id:int}/change-password")]
+		public async Task<ActionResult<ResponseKms>> ChangePassword(int id, ChangePasswordDTO changePasswordDTO)
+		{
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+
+			var result = await userService.ChangeUserPasswordAsync(id, changePasswordDTO);
+
+			return result.Flag ? Ok(result) : BadRequest(result);
+		}
 	}
 }

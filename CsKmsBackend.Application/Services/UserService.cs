@@ -7,6 +7,17 @@ namespace CsKmsBackend.Application.Services
 {
 	public class UserService(IUserRepository userRepo) : IUserService
 	{
+		public async Task<ResponseKms> ChangeUserPasswordAsync(int id, ChangePasswordDTO changePasswordDTO)
+		{
+			var user = await userRepo.FindByIdAsync(id);
+			if(!BCrypt.Net.BCrypt.Verify(changePasswordDTO.OldPassword, user.Password))
+				return new ResponseKms(false, "old password does not match!");
+			if(changePasswordDTO.NewPassword != changePasswordDTO.ConfirmNewPassword)
+				return new ResponseKms(false, "confirm new password again!");
+			var result = await userRepo.ChangePasswordAsync(user!, changePasswordDTO.NewPassword);
+			return result;
+		}
+
 		public async Task<ResponseKms> CreateUserAsync(UserCreationDTO userCreationDTO)
 		{
 			var user = userCreationDTO.ToEntity();
@@ -35,6 +46,13 @@ namespace CsKmsBackend.Application.Services
 		{
 			var user = await userRepo.FindByIdAsync(id);
 			return user is not null ? user.ToDTO() : null;
+		}
+
+		public async Task<ResponseKms> ResetUserPasswordAsync(int id)
+		{
+			var user = await userRepo.FindByIdAsync(id);
+			var result = await userRepo.ResetPasswordAsync(user!);
+			return result;
 		}
 
 		public async Task<ResponseKms> UpdateUserAsync(UserDTO userDTO)
