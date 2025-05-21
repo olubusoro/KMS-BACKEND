@@ -10,6 +10,7 @@ namespace CsKmsBackend.Application.Interfaces
 		Task<ResponseKms> DeletePostAsync(int id);
 		Task<IEnumerable<PostDTO>> GetAllPostsAsync();
 		Task<PostDTO?> GetPostAsync(int id);
+		Task<PostAttachment?> GetAttachmentAsync(int postId, int  attachmentId); 
 		// Task<PostDTO?> GetPostBySearchAsync(string search);
 	}
 }

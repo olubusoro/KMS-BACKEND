@@ -10,8 +10,10 @@ namespace CsKmsBackend.Application.Services
 	{
 		public async Task<ResponseKms> CreatePostAsync(PostCreationDTO postCreationDTO)
 		{
+			if(postCreationDTO.UserId < 1)
+				return new ResponseKms(false, "invalid user id");
 			var allowedExtensions = new[] { ".pdf", ".docx", ".txt" };
-			var maxSize = 20 * 1024 * 1024;
+			var maxSize = 20 * 1024 * 1024; //20mb
 
 			var post = postCreationDTO.ToEntity();
 
@@ -51,6 +53,18 @@ namespace CsKmsBackend.Application.Services
 		{
 			var result = await postRepo.DeleteAsync(id);
 			return result;
+		}
+
+		public async Task<PostAttachment?> GetAttachmentAsync(int postId, int attachmentId)
+		{
+			var post = await postRepo.GetByAsync(p => p.Id == postId);
+			if (post is null) 
+				return null;
+			var attachment = post.Attachments.FirstOrDefault(a=>a.Id == attachmentId);
+			if (attachment is null || !File.Exists(attachment.FilePath))
+				return null;
+
+			return attachment;
 		}
 
 		public async Task<IEnumerable<PostDTO>> GetAllPostsAsync()

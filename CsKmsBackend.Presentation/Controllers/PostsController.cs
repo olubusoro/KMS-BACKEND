@@ -12,6 +12,8 @@ namespace CsKmsBackend.Presentation.Controllers
 		[HttpPost]
 		public async Task<ActionResult<ResponseKms>> CreatePost([FromForm]PostCreationDTO postCreationDTO)
 		{
+			if(!ModelState.IsValid) 
+				return BadRequest(ModelState);
 			var result = await postService.CreatePostAsync(postCreationDTO);
 			return result.Flag ? Ok(result) : BadRequest(result);
 		} 
@@ -27,6 +29,16 @@ namespace CsKmsBackend.Presentation.Controllers
 		{
 			var post = await postService.GetPostAsync(id);
 			return post is not null ? Ok(post) : NotFound();
+		}
+
+		[HttpGet("{postId:int}/attachments/{attachmentId:int}")]
+		public async Task<IActionResult> DownloadAttachment(int postId, int attachmentId)
+		{
+			var attachment = await postService.GetAttachmentAsync(postId, attachmentId);
+			if(attachment is null)
+				return NotFound();
+			var bytes = await System.IO.File.ReadAllBytesAsync(attachment.FilePath);
+			return File(bytes, attachment.ContentType, attachment.OriginalFileName);
 		}
 
 		[HttpPut]
