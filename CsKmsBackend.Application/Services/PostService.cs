@@ -51,7 +51,23 @@ namespace CsKmsBackend.Application.Services
 
 		public async Task<ResponseKms> DeletePostAsync(int id)
 		{
+			var post = await postRepo.GetByAsync(p=> p.Id==id);
+			var filePaths = post.Attachments.Select(p => p.FilePath).ToList();
 			var result = await postRepo.DeleteAsync(id);
+			if (result.Flag)
+			{
+				try
+				{
+					foreach(var filePath in filePaths)
+					{
+						File.Delete(filePath);
+					}
+				}
+				catch
+				{
+					return new ResponseKms(true, "deleted post but failed to delete associated file(s)");
+				}
+			}
 			return result;
 		}
 
