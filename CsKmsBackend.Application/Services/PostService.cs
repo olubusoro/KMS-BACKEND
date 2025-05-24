@@ -21,31 +21,33 @@ namespace CsKmsBackend.Application.Services
 			if(!Directory.Exists(uploadRoot))
 				Directory.CreateDirectory(uploadRoot);
 
-            foreach (var file in postCreationDTO.Attachments)
-            {
-				var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
-				if (!allowedExtensions.Contains(ext))
-					return new ResponseKms(false, $"Unsupported file type: {ext}");
-
-				if (file.Length > maxSize)
-					return new ResponseKms(false, "File too large");
-
-				var safeFileName = Path.GetRandomFileName() + ext;
-				var fullPath = Path.Combine(uploadRoot, safeFileName);
-
-				using var stream = new FileStream(fullPath, FileMode.Create);
-				await file.CopyToAsync(stream);
-
-				post.Attachments.Add(new PostAttachment
+			if(postCreationDTO.Attachments is not null) { 
+				foreach (var file in postCreationDTO.Attachments)
 				{
-					OriginalFileName = file.FileName,
-					FileName = safeFileName,
-					FilePath = fullPath,
-					ContentType = file.ContentType
-				});
+					var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+					if (!allowedExtensions.Contains(ext))
+						return new ResponseKms(false, $"Unsupported file type: {ext}");
+
+					if (file.Length > maxSize)
+						return new ResponseKms(false, "File too large");
+
+					var safeFileName = Path.GetRandomFileName() + ext;
+					var fullPath = Path.Combine(uploadRoot, safeFileName);
+
+					using var stream = new FileStream(fullPath, FileMode.Create);
+					await file.CopyToAsync(stream);
+
+					post.Attachments.Add(new PostAttachment
+					{
+						OriginalFileName = file.FileName,
+						FileName = safeFileName,
+						FilePath = fullPath,
+						ContentType = file.ContentType
+					});
+				}
 			}
 
-            var result = await postRepo.CreateAsync(post);
+			var result = await postRepo.CreateAsync(post);
 			return result;
 		}
 
@@ -95,11 +97,17 @@ namespace CsKmsBackend.Application.Services
 			return post is not null ? post.ToDTO() : null;
 		}
 
-		public Task<ResponseKms> UpdatePostAsync(PostUpdateDTO postUpdateDTO)
+		public async Task<ResponseKms> UpdatePostAsync(PostUpdateDTO postUpdateDTO)
 		{
 			var post = postUpdateDTO.ToEntity();
-			var result = postRepo.UpdateAsync(post);
+			var result = await postRepo.UpdateAsync(post);
 			return result;
+		}
+
+		public async Task<IEnumerable<PostDTO>> GetPostBySearchAsync(string search)
+		{
+			var posts = await postRepo.SearchAsync(search);
+			return posts.ToDTO();
 		}
 	}
 }

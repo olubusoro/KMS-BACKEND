@@ -11,6 +11,6 @@ namespace CsKmsBackend.Application.Interfaces
 		Task<IEnumerable<PostDTO>> GetAllPostsAsync();
 		Task<PostDTO?> GetPostAsync(int id);
 		Task<PostAttachment?> GetAttachmentAsync(int postId, int  attachmentId); 
-		// Task<PostDTO?> GetPostBySearchAsync(string search);
+		Task<IEnumerable<PostDTO>> GetPostBySearchAsync(string search);
 	}
 }

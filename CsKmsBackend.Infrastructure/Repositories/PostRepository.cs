@@ -89,6 +89,23 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			}
 		}
 
+		public async Task<IEnumerable<Post>> SearchAsync(string search)
+		{
+			try
+			{
+				var posts = await context.Posts.Where(
+					p => p.Title.Contains(search) 
+					|| (p.Description != null && p.Description.Contains(search)))
+					.Include(p=>p.CreatedBy)
+					.Include(p=>p.Attachments)
+					.ToListAsync();
+				return posts.Count != 0 ? posts : [];
+			}catch 
+			{
+				return [];
+			}
+		}
+
 		public async Task<ResponseKms> UpdateAsync(Post entity)
 		{
 			try

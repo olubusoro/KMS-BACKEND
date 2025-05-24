@@ -19,8 +19,10 @@ namespace CsKmsBackend.Presentation.Controllers
 		} 
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<PostDTO>>> GetAllPosts()
+		public async Task<ActionResult<IEnumerable<PostDTO>>> GetAllPosts([FromQuery] string search = null)
 		{
+			if (!string.IsNullOrEmpty(search))
+				return Ok(await postService.GetPostBySearchAsync(search));
 			return Ok(await postService.GetAllPostsAsync());
 		}
 
@@ -55,5 +57,11 @@ namespace CsKmsBackend.Presentation.Controllers
 			var result = await postService.DeletePostAsync(id);
 			return result.Flag ? Ok(result) : BadRequest(result);
 		}
+
+		//[HttpGet("search")]
+		//public async Task<ActionResult<IEnumerable<PostDTO>>> SearchForPost([FromQuery] string query)
+		//{
+		//	return Ok(await postService.GetPostBySearchAsync(query));
+		//}
 	}
 }
