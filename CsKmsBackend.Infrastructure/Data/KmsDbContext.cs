@@ -7,6 +7,8 @@ namespace CsKmsBackend.Infrastructure.Data
 	public class KmsDbContext(DbContextOptions<KmsDbContext> options):DbContext(options) 
 	{
 		public DbSet<User> Users {  get; set; }
+		public DbSet<Post> Posts { get; set; }
+		public DbSet<PostAttachment> PostAttachments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
