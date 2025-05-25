@@ -8,7 +8,7 @@ namespace CsKmsBackend.Infrastructure.Data.Config
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			// Configure MyClass to store the Role enum as a string
+			// Configure Class to store the Role enum as a string
 
 			builder.Property(e => e.Role).HasConversion<string>();
 
