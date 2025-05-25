@@ -12,6 +12,7 @@ namespace CsKmsBackend.Application.DependencyInjection
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<IPostService, PostService>();
+			services.AddScoped<IAccessRequestService, AccessRequestService>();
 
 
 			return services;
