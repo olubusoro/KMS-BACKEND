@@ -24,6 +24,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IAccessRequestRepository, AccessRequestRepository>();
+			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddApplicationService();
 
 			// JWT service
