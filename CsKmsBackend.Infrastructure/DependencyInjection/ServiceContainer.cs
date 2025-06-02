@@ -26,6 +26,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			services.AddScoped<IAccessRequestRepository, AccessRequestRepository>();
 			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
+			services.AddScoped<ILogRepository, LogRepository>();
 			services.AddApplicationService();
 
 			// JWT service
@@ -52,7 +53,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			{
 				options.AddPolicy("AllowReactApp",
 					policy => policy
-						.WithOrigins("http://localhost:5173") // React dev server
+						.WithOrigins(config["Authentication:Audience"]!) // React dev server
 						.AllowAnyHeader()
 						.AllowAnyMethod());
 			});
