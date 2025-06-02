@@ -9,12 +9,8 @@ namespace CsKmsBackend.Application.Services
 {
     public class CategoryService(ICategoryRepository CategoryRepo) : ICategoryService
     {
-        public Task<ResponseKms> CreateCategoryAsync(CategoryDTO CategoryDTO)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<ResponseKms> CreateCategorytAsync(CategoryDTO CategoryDTO)
+        public async Task<ResponseKms> CreateCategoryAsync(CategoryDTO CategoryDTO)
         {
           var category = CategoryDTO.ToEntity();
             var result = await CategoryRepo.CreateAsync(category);

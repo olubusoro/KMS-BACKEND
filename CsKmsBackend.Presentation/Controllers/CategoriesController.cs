@@ -41,7 +41,7 @@ namespace CsKmsBackend.Presentation.Controllers
             return result.Flag ? Ok(result) : BadRequest(result);
         }
         [HttpPost]
-        public async Task<ActionResult<ResponseKms>> CreateCategory([FromForm] CategoryDTO categoryCreationDTO)
+        public async Task<ActionResult<ResponseKms>> CreateCategory( CategoryDTO categoryCreationDTO)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
