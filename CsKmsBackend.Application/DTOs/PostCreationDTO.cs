@@ -10,6 +10,5 @@ namespace CsKmsBackend.Application.DTOs
 		[Required] string Content,
 		[Required] string Visibility,
 		int? CategoryId,
-		[Required] int UserId,
 		List<IFormFile>? Attachments);
 }

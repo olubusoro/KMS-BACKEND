@@ -32,7 +32,8 @@ namespace CsKmsBackend.Application.Services
 			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
 			var claims = new List<Claim>
 			{
-				new(ClaimTypes.Name, user.Name!),
+				new(ClaimTypes.NameIdentifier,user.Id.ToString()),
+				// new(ClaimTypes.Name, user.Name!),
 				new(ClaimTypes.Email, user.Email!),
 				new(ClaimTypes.Role, user.Role.ToString())
 			};

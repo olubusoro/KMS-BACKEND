@@ -2,6 +2,9 @@
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sprache;
+using System.Security.Claims;
 
 namespace CsKmsBackend.Presentation.Controllers
 {
@@ -13,7 +16,8 @@ namespace CsKmsBackend.Presentation.Controllers
 		public async Task<ActionResult<ResponseKms>> RequestAccess(AccessRequestCreationDTO accessRequestCreationDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
-			var response = await accessRequestService.CreateRequestAsync(accessRequestCreationDTO);
+			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
+			var response = await accessRequestService.CreateRequestAsync(userId, accessRequestCreationDTO);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
@@ -34,21 +38,24 @@ namespace CsKmsBackend.Presentation.Controllers
 		[HttpDelete("{id:int}")]
 		public async Task<ActionResult<ResponseKms>> CancelAccessRequest(int id)
 		{
-			var response = await accessRequestService.DeleteRequestAsync(id);
+			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
+			var response = await accessRequestService.DeleteRequestAsync(userId, id);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
 		[HttpPatch("{id:int}/approve")]
 		public async Task<ActionResult<ResponseKms>> ApproveRequest(int id)
 		{
-			var response = await accessRequestService.ApproveRequestAsync(id);
+			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
+			var response = await accessRequestService.ApproveRequestAsync(userId, id);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
 		[HttpPatch("{id:int}/deny")]
 		public async Task<ActionResult<ResponseKms>> DenyRequest(int id)
 		{
-			var response = await accessRequestService.DenyRequestAsync(id);
+			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
+			var response = await accessRequestService.DenyRequestAsync(userId, id);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
