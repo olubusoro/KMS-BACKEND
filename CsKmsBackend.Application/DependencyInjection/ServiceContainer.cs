@@ -15,6 +15,8 @@ namespace CsKmsBackend.Application.DependencyInjection
 			services.AddScoped<IDepartmentService, DepartmentService>();
 			services.AddScoped<IAccessRequestService, AccessRequestService>();
 			services.AddScoped<ICategoryService, CategoryService>();
+			services.AddScoped<IAuditLoggerService, AuditLoggerService>();
+
 
 			return services;
 		}
