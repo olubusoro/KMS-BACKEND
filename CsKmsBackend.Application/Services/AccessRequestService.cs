@@ -1,12 +1,13 @@
 ﻿using CsKmsBackend.Application.DTOs.AccessRequests;
 using CsKmsBackend.Application.DTOs.Conversions;
 using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.Extensions.Logging;
 
 namespace CsKmsBackend.Application.Services
 {
-	public class AccessRequestService(IAccessRequestRepository accessRequestRepo, IAuditLoggerService logger) : IAccessRequestService
+    public class AccessRequestService(IAccessRequestRepository accessRequestRepo, IAuditLoggerService logger) : IAccessRequestService
 	{
 		public async Task<ResponseKms> ApproveRequestAsync(int userId, int id)
 		{

@@ -1,5 +1,5 @@
 ﻿using CsKmsBackend.Application.DependencyInjection;
-using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Infrastructure.Data;
 using CsKmsBackend.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,7 +11,7 @@ using System.Text;
 
 namespace CsKmsBackend.Infrastructure.DependencyInjection
 {
-	public static class ServiceContainer
+    public static class ServiceContainer
 	{
 		public static IServiceCollection AddInfrastructureService(this IServiceCollection services, IConfiguration config)
 		{

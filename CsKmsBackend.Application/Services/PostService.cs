@@ -1,13 +1,14 @@
 ﻿using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.DTOs.Conversions;
 using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 
 namespace CsKmsBackend.Application.Services
 {
-	public class PostService(IPostRepository postRepo, IAuditLoggerService logger) : IPostService
+    public class PostService(IPostRepository postRepo, IAuditLoggerService logger) : IPostService
 	{
 		public async Task<ResponseKms> CreatePostAsync(int userId, PostCreationDTO postCreationDTO)
 		{

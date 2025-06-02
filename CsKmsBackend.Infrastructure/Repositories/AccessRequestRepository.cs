@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.Interfaces;
+﻿using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace CsKmsBackend.Infrastructure.Repositories
 {
-	public class AccessRequestRepository(KmsDbContext context) : IAccessRequestRepository
+    public class AccessRequestRepository(KmsDbContext context) : IAccessRequestRepository
 	{
 		public async Task<ResponseKms> CreateAsync(AccessRequest entity)
 		{

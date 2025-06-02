@@ -1,11 +1,12 @@
 ﻿using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.DTOs.Conversions;
 using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.Services
 {
-	public class UserService(IUserRepository userRepo) : IUserService
+    public class UserService(IUserRepository userRepo) : IUserService
 	{
 		public async Task<ResponseKms> ChangeUserPasswordAsync(int id, ChangePasswordDTO changePasswordDTO)
 		{

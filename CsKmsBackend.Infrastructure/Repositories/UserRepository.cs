@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.Interfaces;
+﻿using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace CsKmsBackend.Infrastructure.Repositories
 {
-	public class UserRepository(KmsDbContext context) : IUserRepository
+    public class UserRepository(KmsDbContext context) : IUserRepository
 	{
 		public async Task<ResponseKms> ChangePasswordAsync(User user, string password)
 		{

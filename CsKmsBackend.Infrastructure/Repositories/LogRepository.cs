@@ -1,11 +1,11 @@
-﻿using CsKmsBackend.Application.Interfaces;
+﻿using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Domain.Models.Enums;
 using CsKmsBackend.Infrastructure.Data;
 
 namespace CsKmsBackend.Infrastructure.Repositories
 {
-	public class LogRepository(KmsDbContext context) : ILogRepository
+    public class LogRepository(KmsDbContext context) : ILogRepository
 	{
 		public async Task LogAsync(ActionType actionType, int performedByUserId, EntityType entityType)
 		{
