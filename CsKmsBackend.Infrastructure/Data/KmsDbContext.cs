@@ -10,6 +10,7 @@ namespace CsKmsBackend.Infrastructure.Data
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<PostAttachment> PostAttachments { get; set; }
 		public DbSet<AccessRequest> AccessRequests { get; set; }
+		public DbSet<Department> Departments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
