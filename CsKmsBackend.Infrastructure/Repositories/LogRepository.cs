@@ -2,11 +2,24 @@
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Domain.Models.Enums;
 using CsKmsBackend.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CsKmsBackend.Infrastructure.Repositories
 {
     public class LogRepository(KmsDbContext context) : ILogRepository
 	{
+		public async Task<Log?> FindByIdAsync(int id)
+		{
+			var log = await context.Logs.FindAsync(id);
+			return log;
+		}
+
+		public async Task<IEnumerable<Log>> GetAllAsync()
+		{
+			var logs = await context.Logs.AsNoTracking().ToListAsync();
+			return logs;
+		}
+
 		public async Task LogAsync(ActionType actionType, int performedByUserId, EntityType entityType)
 		{
 			try
