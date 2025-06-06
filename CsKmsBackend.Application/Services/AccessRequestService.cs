@@ -14,8 +14,7 @@ namespace CsKmsBackend.Application.Services
 			var result = await accessRequestRepo.ApproveAsync(id);
 			if (result.Flag)
 			{
-				var accessRequest= await accessRequestRepo.FindByIdAsync(id);
-				await logger.LogAsync(Domain.Models.Enums.ActionType.ApproveAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, accessRequest.Id);
+				await logger.LogAsync(Domain.Models.Enums.ActionType.ApproveAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
 			}
 			return result;
 		}
@@ -37,8 +36,7 @@ namespace CsKmsBackend.Application.Services
 			var result = await accessRequestRepo.DeleteAsync(id);
 			if (result.Flag)
 			{
-				var accessRequest = await accessRequestRepo.FindByIdAsync(id);
-				await logger.LogAsync(Domain.Models.Enums.ActionType.Delete, userId, Domain.Models.Enums.EntityType.AccessRequest, accessRequest.Id);
+				await logger.LogAsync(Domain.Models.Enums.ActionType.Delete, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
 			}
 			return result;
 		}
@@ -48,8 +46,7 @@ namespace CsKmsBackend.Application.Services
 			var result = await accessRequestRepo.DenyAsync(id);
 			if (result.Flag)
 			{
-				var accessRequest = await accessRequestRepo.FindByIdAsync(id);
-				await logger.LogAsync(Domain.Models.Enums.ActionType.DenyAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, accessRequest.Id);
+				await logger.LogAsync(Domain.Models.Enums.ActionType.DenyAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
 			}
 			return result;
 		}
