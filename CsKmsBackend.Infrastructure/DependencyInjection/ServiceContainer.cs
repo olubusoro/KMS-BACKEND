@@ -1,8 +1,10 @@
 ﻿using CsKmsBackend.Application.DependencyInjection;
 using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Infrastructure.Data;
+using CsKmsBackend.Infrastructure.Middlewares;
 using CsKmsBackend.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +61,13 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			});
 
 			return services;
+		}
+
+		public static IApplicationBuilder UseInfrastructurePolicy(this IApplicationBuilder app)
+		{
+			app.UseMiddleware<UserContextMiddleware>();
+
+			return app;
 		}
 	}
 }

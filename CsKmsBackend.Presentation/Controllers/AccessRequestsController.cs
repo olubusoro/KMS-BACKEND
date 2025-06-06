@@ -10,14 +10,13 @@ namespace CsKmsBackend.Presentation.Controllers
 {
 	[Route("api/access-requests")]
 	[ApiController]
-	public class AccessRequestsController(IAccessRequestService accessRequestService) : ControllerBase
+	public class AccessRequestsController(IAccessRequestService accessRequestService, ICurrentUserService currentUser) : ControllerBase
 	{
 		[HttpPost]
 		public async Task<ActionResult<ResponseKms>> RequestAccess(AccessRequestCreationDTO accessRequestCreationDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
-			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
-			var response = await accessRequestService.CreateRequestAsync(userId, accessRequestCreationDTO);
+			var response = await accessRequestService.CreateRequestAsync(currentUser.UserId, accessRequestCreationDTO);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
@@ -38,24 +37,21 @@ namespace CsKmsBackend.Presentation.Controllers
 		[HttpDelete("{id:int}")]
 		public async Task<ActionResult<ResponseKms>> CancelAccessRequest(int id)
 		{
-			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
-			var response = await accessRequestService.DeleteRequestAsync(userId, id);
+			var response = await accessRequestService.DeleteRequestAsync(currentUser.UserId, id);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
 		[HttpPatch("{id:int}/approve")]
 		public async Task<ActionResult<ResponseKms>> ApproveRequest(int id)
 		{
-			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
-			var response = await accessRequestService.ApproveRequestAsync(userId, id);
+			var response = await accessRequestService.ApproveRequestAsync(currentUser.UserId, id);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
 		[HttpPatch("{id:int}/deny")]
 		public async Task<ActionResult<ResponseKms>> DenyRequest(int id)
 		{
-			_ = int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out int userId);
-			var response = await accessRequestService.DenyRequestAsync(userId, id);
+			var response = await accessRequestService.DenyRequestAsync(currentUser.UserId, id);
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
