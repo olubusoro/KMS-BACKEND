@@ -51,7 +51,7 @@ namespace CsKmsBackend.Application.Services
 			var result = await postRepo.CreateAsync(post);
 			if (result.Flag)
 			{
-				await logger.LogAsync(Domain.Models.Enums.ActionType.Create, userId, Domain.Models.Enums.EntityType.Post);
+				await logger.LogCreateAsync(Domain.Models.Enums.ActionType.Create, userId, Domain.Models.Enums.EntityType.Post);
 			}
 			return result;
 		}
@@ -63,8 +63,7 @@ namespace CsKmsBackend.Application.Services
 			var result = await postRepo.DeleteAsync(id);
 			if (result.Flag)
 			{
-
-				await logger.LogAsync(Domain.Models.Enums.ActionType.Delete, userId, Domain.Models.Enums.EntityType.Post);
+				await logger.LogAsync(Domain.Models.Enums.ActionType.Delete, userId, Domain.Models.Enums.EntityType.Post, post.Id);
 				if (filePaths.Count > 0)
 				{
 					try
@@ -113,7 +112,7 @@ namespace CsKmsBackend.Application.Services
 			var result = await postRepo.UpdateAsync(post);
 			if (result.Flag)
 			{
-				await logger.LogAsync(Domain.Models.Enums.ActionType.Update, userId, Domain.Models.Enums.EntityType.Post);
+				await logger.LogAsync(Domain.Models.Enums.ActionType.Update, userId, Domain.Models.Enums.EntityType.Post, post.Id);
 			}
 			return result;
 		}

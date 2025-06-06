@@ -20,9 +20,14 @@ namespace CsKmsBackend.Application.Services
 			return logs.Any() ? logs.ToDTO() : [];
 		}
 
-		public async Task LogAsync(ActionType actionType, int performedByUserId, EntityType entityType)
+		public async Task LogCreateAsync(ActionType actionType, int performedByUserId, EntityType entityType)
 		{
-			await logRepo.LogAsync(actionType, performedByUserId, entityType);
+			await logRepo.LogCreateAsync(actionType, performedByUserId, entityType);
+		}
+
+		public async Task LogAsync(ActionType actionType, int performedByUserId, EntityType entityType, int EntityId)
+		{
+			await logRepo.LogAsync(actionType, performedByUserId, entityType, EntityId);
 		}
 	}
 }

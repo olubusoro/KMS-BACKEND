@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CsKmsBackend.Infrastructure.Repositories
 {
-    public class LogRepository(KmsDbContext context) : ILogRepository
+	public class LogRepository(KmsDbContext context) : ILogRepository
 	{
 		public async Task<Log?> FindByIdAsync(int id)
 		{
@@ -20,7 +20,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			return logs;
 		}
 
-		public async Task LogAsync(ActionType actionType, int performedByUserId, EntityType entityType)
+		public async Task LogCreateAsync(ActionType actionType, int performedByUserId, EntityType entityType)
 		{
 			try
 			{
@@ -45,10 +45,32 @@ namespace CsKmsBackend.Infrastructure.Repositories
 					};
 					context.Logs.Add(log);
 				}
-				
+
 				await context.SaveChangesAsync();
 			}
-			catch{
+			catch
+			{
+				Console.WriteLine("Failed to Log");
+			}
+		}
+		public async Task LogAsync(ActionType actionType, int performedByUserId, EntityType entityType, int EntityId)
+		{
+			try
+			{
+
+				var log = new Log
+				{
+					Action = actionType.ToString(),
+					PerformedBy = performedByUserId,
+					EntityType = entityType.ToString(),
+					EntityId = EntityId
+				};
+				context.Logs.Add(log);
+
+				await context.SaveChangesAsync();
+			}
+			catch
+			{
 				Console.WriteLine("Failed to Log");
 			}
 		}
