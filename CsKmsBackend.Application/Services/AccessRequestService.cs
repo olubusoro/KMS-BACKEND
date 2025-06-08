@@ -1,34 +1,53 @@
 ﻿using CsKmsBackend.Application.DTOs.AccessRequests;
 using CsKmsBackend.Application.DTOs.Conversions;
 using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
+using Microsoft.Extensions.Logging;
 
 namespace CsKmsBackend.Application.Services
 {
-	public class AccessRequestService(IAccessRequestRepository accessRequestRepo) : IAccessRequestService
+    public class AccessRequestService(IAccessRequestRepository accessRequestRepo, IAuditLoggerService logger) : IAccessRequestService
 	{
-		public async Task<ResponseKms> ApproveRequestAsync(int id)
+		public async Task<ResponseKms> ApproveRequestAsync(int userId, int id)
 		{
 			var result = await accessRequestRepo.ApproveAsync(id);
+			if (result.Flag)
+			{
+				await logger.LogAsync(Domain.Models.Enums.ActionType.ApproveAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
+			}
 			return result;
 		}
 
-		public async Task<ResponseKms> CreateRequestAsync(AccessRequestCreationDTO accessRequestDTO)
+		public async Task<ResponseKms> CreateRequestAsync(int userId,AccessRequestCreationDTO accessRequestDTO)
 		{
 			var request = accessRequestDTO.ToEntity();
+			request.UserId = userId;
 			var result = await accessRequestRepo.CreateAsync(request);
+			if (result.Flag)
+			{
+				await logger.LogCreateAsync(Domain.Models.Enums.ActionType.RequestAccess, userId, Domain.Models.Enums.EntityType.AccessRequest);
+			}
 			return result;
 		}
 
-		public async Task<ResponseKms> DeleteRequestAsync(int id)
+		public async Task<ResponseKms> DeleteRequestAsync(int userId, int id)
 		{
 			var result = await accessRequestRepo.DeleteAsync(id);
+			if (result.Flag)
+			{
+				await logger.LogAsync(Domain.Models.Enums.ActionType.Delete, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
+			}
 			return result;
 		}
 
-		public async Task<ResponseKms> DenyRequestAsync(int id)
+		public async Task<ResponseKms> DenyRequestAsync(int userId, int id)
 		{
 			var result = await accessRequestRepo.DenyAsync(id);
+			if (result.Flag)
+			{
+				await logger.LogAsync(Domain.Models.Enums.ActionType.DenyAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
+			}
 			return result;
 		}
 

@@ -1,8 +1,10 @@
 ﻿using CsKmsBackend.Application.DependencyInjection;
-using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Infrastructure.Data;
+using CsKmsBackend.Infrastructure.Middlewares;
 using CsKmsBackend.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +13,7 @@ using System.Text;
 
 namespace CsKmsBackend.Infrastructure.DependencyInjection
 {
-	public static class ServiceContainer
+    public static class ServiceContainer
 	{
 		public static IServiceCollection AddInfrastructureService(this IServiceCollection services, IConfiguration config)
 		{
@@ -26,6 +28,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			services.AddScoped<IAccessRequestRepository, AccessRequestRepository>();
 			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
+			services.AddScoped<ILogRepository, LogRepository>();
 			services.AddApplicationService();
 
 			// JWT service
@@ -52,12 +55,19 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			{
 				options.AddPolicy("AllowReactApp",
 					policy => policy
-						.WithOrigins("http://localhost:5173") // React dev server
+						.WithOrigins(config["Authentication:Audience"]!) // React dev server
 						.AllowAnyHeader()
 						.AllowAnyMethod());
 			});
 
 			return services;
+		}
+
+		public static IApplicationBuilder UseInfrastructurePolicy(this IApplicationBuilder app)
+		{
+			app.UseMiddleware<UserContextMiddleware>();
+
+			return app;
 		}
 	}
 }

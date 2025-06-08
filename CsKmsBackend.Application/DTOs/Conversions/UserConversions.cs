@@ -34,12 +34,7 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			var userDTOs = new List<UserDTO>();
 			foreach (var user in users)
 			{
-				userDTOs.Add(new UserDTO(user.Id,
-								user.Name,
-								user.Email,
-								user.Role,
-								user.Departments,
-								user.CreatedAt));
+				userDTOs.Add(ToDTO(user));
 			}
 			return userDTOs;
 		}

@@ -5,11 +5,11 @@ namespace CsKmsBackend.Application.Interfaces
 {
 	public interface IAccessRequestService
 	{
-		Task<ResponseKms> CreateRequestAsync(AccessRequestCreationDTO accessRequestDTO);
+		Task<ResponseKms> CreateRequestAsync(int userId, AccessRequestCreationDTO accessRequestDTO);
 		Task<ResponseKms> UpdateRequestReasonAsync(AccessRequestDTO accessRequestDTO);
-		Task<ResponseKms> ApproveRequestAsync(int id);
-		Task<ResponseKms> DenyRequestAsync(int id);
-		Task<ResponseKms> DeleteRequestAsync(int id);
+		Task<ResponseKms> ApproveRequestAsync(int userId, int id);
+		Task<ResponseKms> DenyRequestAsync(int userId, int id);
+		Task<ResponseKms> DeleteRequestAsync(int userId, int id);
 		Task<IEnumerable<AccessRequestDTO>> GetAllRequestAsync();
 		Task<AccessRequestDTO?> GetRequestAsync(int id);
 	}

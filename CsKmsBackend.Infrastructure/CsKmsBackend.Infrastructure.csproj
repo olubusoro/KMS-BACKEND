@@ -22,7 +22,10 @@
 
   <ItemGroup>
 	  <Folder Include="Data\" />
+	  <Folder Include="Middlewares\" />
 	  <Folder Include="DependencyInjection\" />
+	  <Folder Include="Repositories\" />
+	  <Folder Include="Data\Config\" />
   </ItemGroup>
 
 </Project>

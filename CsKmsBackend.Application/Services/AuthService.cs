@@ -1,5 +1,6 @@
 ﻿using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace CsKmsBackend.Application.Services
 {
-	public class AuthService(IUserRepository userRepo, IConfiguration config) : IAuthService
+    public class AuthService(IUserRepository userRepo, IConfiguration config) : IAuthService
 	{
 		public async Task<ResponseKms> LoginAsync(LoginDTO request)
 		{
@@ -32,7 +33,8 @@ namespace CsKmsBackend.Application.Services
 			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
 			var claims = new List<Claim>
 			{
-				new(ClaimTypes.Name, user.Name!),
+				new(ClaimTypes.NameIdentifier,user.Id.ToString()),
+				// new(ClaimTypes.Name, user.Name!),
 				new(ClaimTypes.Email, user.Email!),
 				new(ClaimTypes.Role, user.Role.ToString())
 			};

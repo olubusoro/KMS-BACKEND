@@ -8,7 +8,6 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 		public static AccessRequest ToEntity(this AccessRequestCreationDTO accessRequestDTO) => new()
 		{
 			PostId = accessRequestDTO.PostId,
-			UserId = accessRequestDTO.UserId,
 			Reason = accessRequestDTO.Reason,
 		};
 

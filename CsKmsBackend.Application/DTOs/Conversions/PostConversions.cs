@@ -10,8 +10,7 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			Description = postCreationDTO.Description,
 			Content = postCreationDTO.Content,
 			CategoryId = postCreationDTO.CategoryId,
-			Visibility = postCreationDTO.Visibility,
-			UserId = postCreationDTO.UserId,
+			Visibility = postCreationDTO.Visibility
 		};
 
 		public static Post ToEntity(this PostUpdateDTO postupdateDTO) => new()

@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.Interfaces;
+﻿using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace CsKmsBackend.Infrastructure.Repositories
 {
-	public class PostRepository(KmsDbContext context) : IPostRepository
+    public class PostRepository(KmsDbContext context) : IPostRepository
 	{
 		public async Task<ResponseKms> CreateAsync(Post entity)
 		{

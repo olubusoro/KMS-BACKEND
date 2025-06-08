@@ -1,21 +1,22 @@
 ﻿using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.DTOs.Conversions;
 using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
+using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 
 namespace CsKmsBackend.Application.Services
 {
-	public class PostService(IPostRepository postRepo) : IPostService
+    public class PostService(IPostRepository postRepo, IAuditLoggerService logger) : IPostService
 	{
-		public async Task<ResponseKms> CreatePostAsync(PostCreationDTO postCreationDTO)
+		public async Task<ResponseKms> CreatePostAsync(int userId, PostCreationDTO postCreationDTO)
 		{
-			if(postCreationDTO.UserId < 1)
-				return new ResponseKms(false, "invalid user id");
 			var allowedExtensions = new[] { ".pdf", ".docx", ".txt" };
 			var maxSize = 20 * 1024 * 1024; //20mb
 
 			var post = postCreationDTO.ToEntity();
+			post.UserId = userId;
 
 			var uploadRoot = Path.Combine($"Uploads/Attachments/Departments/Category");
 			if(!Directory.Exists(uploadRoot))
@@ -48,26 +49,34 @@ namespace CsKmsBackend.Application.Services
 			}
 
 			var result = await postRepo.CreateAsync(post);
+			if (result.Flag)
+			{
+				await logger.LogCreateAsync(Domain.Models.Enums.ActionType.Create, userId, Domain.Models.Enums.EntityType.Post);
+			}
 			return result;
 		}
 
-		public async Task<ResponseKms> DeletePostAsync(int id)
+		public async Task<ResponseKms> DeletePostAsync(int userId, int id)
 		{
 			var post = await postRepo.GetByAsync(p=> p.Id==id);
 			var filePaths = post.Attachments.Select(p => p.FilePath).ToList();
 			var result = await postRepo.DeleteAsync(id);
 			if (result.Flag)
 			{
-				try
+				await logger.LogAsync(Domain.Models.Enums.ActionType.Delete, userId, Domain.Models.Enums.EntityType.Post, post.Id);
+				if (filePaths.Count > 0)
 				{
-					foreach(var filePath in filePaths)
+					try
 					{
-						File.Delete(filePath);
+						foreach (var filePath in filePaths)
+						{
+							File.Delete(filePath);
+						}
 					}
-				}
-				catch
-				{
-					return new ResponseKms(true, "deleted post but failed to delete associated file(s)");
+					catch
+					{
+						return new ResponseKms(true, "deleted post but failed to delete associated file(s)");
+					}
 				}
 			}
 			return result;
@@ -97,10 +106,14 @@ namespace CsKmsBackend.Application.Services
 			return post is not null ? post.ToDTO() : null;
 		}
 
-		public async Task<ResponseKms> UpdatePostAsync(PostUpdateDTO postUpdateDTO)
+		public async Task<ResponseKms> UpdatePostAsync(int userId, PostUpdateDTO postUpdateDTO)
 		{
 			var post = postUpdateDTO.ToEntity();
 			var result = await postRepo.UpdateAsync(post);
+			if (result.Flag)
+			{
+				await logger.LogAsync(Domain.Models.Enums.ActionType.Update, userId, Domain.Models.Enums.EntityType.Post, post.Id);
+			}
 			return result;
 		}
 

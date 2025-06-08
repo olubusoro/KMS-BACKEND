@@ -2,19 +2,20 @@
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CsKmsBackend.Presentation.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class PostsController(IPostService postService) : ControllerBase
+	public class PostsController(IPostService postService, ICurrentUserService currentUser) : ControllerBase
 	{
 		[HttpPost]
 		public async Task<ActionResult<ResponseKms>> CreatePost([FromForm]PostCreationDTO postCreationDTO)
 		{
 			if(!ModelState.IsValid) 
 				return BadRequest(ModelState);
-			var result = await postService.CreatePostAsync(postCreationDTO);
+			var result = await postService.CreatePostAsync(currentUser.UserId, postCreationDTO);
 			return result.Flag ? Ok(result) : BadRequest(result);
 		} 
 
@@ -47,21 +48,16 @@ namespace CsKmsBackend.Presentation.Controllers
 		public async Task<ActionResult<ResponseKms>> UpdatePost(PostUpdateDTO postUpdateDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
-			var result = await postService.UpdatePostAsync(postUpdateDTO);
+			var result = await postService.UpdatePostAsync(currentUser.UserId, postUpdateDTO);
 			return result.Flag ? Ok(result) : BadRequest(result);
 		}
 
 		[HttpDelete("{id:int}")]
 		public async Task<ActionResult<ResponseKms>> DeletePost(int id)
 		{
-			var result = await postService.DeletePostAsync(id);
+			var result = await postService.DeletePostAsync(currentUser.UserId, id);
 			return result.Flag ? Ok(result) : BadRequest(result);
 		}
 
-		//[HttpGet("search")]
-		//public async Task<ActionResult<IEnumerable<PostDTO>>> SearchForPost([FromQuery] string query)
-		//{
-		//	return Ok(await postService.GetPostBySearchAsync(query));
-		//}
 	}
 }
