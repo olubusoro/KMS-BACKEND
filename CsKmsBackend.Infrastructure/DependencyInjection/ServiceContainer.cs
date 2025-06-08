@@ -24,6 +24,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IAccessRequestRepository, AccessRequestRepository>();
+			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddApplicationService();
 
