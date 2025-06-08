@@ -18,8 +18,6 @@
 
 	<ItemGroup>
 		<Folder Include="DTOs\Conversions\" />
-		<Folder Include="Interfaces\" />
-		<Folder Include="Interfaces\RepoInterfaces" />
 		<Folder Include="Services\" />
 	</ItemGroup>
 

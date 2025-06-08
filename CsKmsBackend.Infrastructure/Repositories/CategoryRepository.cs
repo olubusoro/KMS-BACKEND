@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using CsKmsBackend.Application.Interfaces;
+using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
