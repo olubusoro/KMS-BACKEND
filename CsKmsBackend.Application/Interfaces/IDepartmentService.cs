@@ -5,7 +5,7 @@ namespace CsKmsBackend.Application.Interfaces
 {
     public interface IDepartmentService
     {
-        Task<ResponseKms> CreateDepartmentAsync(DepartmentDTO DepartmentDTO);
+        Task<ResponseKms> CreateDepartmentAsync(CreateDepartmentDTO DepartmentDTO);
         Task<ResponseKms> UpdateDepartmentAsync(DepartmentDTO DepartmentDTO);
 		Task<ResponseKms> DeleteDepartmentAsync(int id);
 		Task<IEnumerable<DepartmentDTO>> GetAllDepartmentsAsync();

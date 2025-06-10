@@ -4,6 +4,7 @@ using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CsKmsBackend.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(KmsDbContext))]
-    partial class KmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250610103447_AddDepartmentIdToCategories_Stage1")]
+    partial class AddDepartmentIdToCategories_Stage1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +67,7 @@ namespace CsKmsBackend.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -267,9 +270,7 @@ namespace CsKmsBackend.Infrastructure.Data.Migrations
                 {
                     b.HasOne("CsKmsBackend.Domain.Models.Department", "Department")
                         .WithMany("Categories")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
                 });
