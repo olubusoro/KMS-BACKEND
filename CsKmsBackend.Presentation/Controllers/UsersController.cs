@@ -8,11 +8,11 @@ namespace CsKmsBackend.Presentation.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles ="SuperAdmin")]
 	public class UsersController(IUserService userService) : ControllerBase
 	{
 		// POST: api/users
 		[HttpPost]
+		[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult<ResponseKms>> CreateUser(UserCreationDTO userCreationDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -28,6 +28,7 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// GET: api/users
 		[HttpGet]
+		[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
 		{
 			var users = await userService.GetAllUsersAsync();
@@ -36,6 +37,7 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// GET: api/users/5
 		[HttpGet("{id:int}")]
+		[Authorize]
 		public async Task<ActionResult<UserDTO>> GetUserById(int id)
 		{
 			var user = await userService.GetUserByIdAsync(id);
@@ -44,6 +46,7 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// PUT: api/users
 		[HttpPut]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> UpdateUser(UserDTO userDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -53,6 +56,7 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// Delete: api/users/5
 		[HttpDelete("{id:int}")]
+		[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult<ResponseKms>> DeleteUser(int id)
 		{
 			var result = await userService.DeleteUserAsync(id);
@@ -62,21 +66,16 @@ namespace CsKmsBackend.Presentation.Controllers
 		// PATCH or PUT: api/users/5/reset-password
 		
 		[HttpPatch("{id:int}/reset-password")]
+		[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult<ResponseKms>> ResetPassword(int id)
 		{
 			var result = await userService.ResetUserPasswordAsync(id);
 
 			return result.Flag ? Ok(result) : BadRequest(result);
 		}
-	}
 
-
-	[Route("api/users")]
-	[ApiController]
-	[Authorize]
-	public class UserController(IUserService userService) : ControllerBase
-	{
 		[HttpPatch("{id:int}/change-password")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> ChangePassword(int id, ChangePasswordDTO changePasswordDTO)
 		{
 			if (!ModelState.IsValid) return BadRequest(ModelState);
