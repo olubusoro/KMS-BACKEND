@@ -47,7 +47,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		// PUT: api/users
 		[HttpPut]
 		[Authorize]
-		public async Task<ActionResult<ResponseKms>> UpdateUser(UserDTO userDTO)
+		public async Task<ActionResult<ResponseKms>> UpdateUser(UserUpdateDTO userDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
 			var result = await userService.UpdateUserAsync(userDTO);

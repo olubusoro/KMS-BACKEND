@@ -15,7 +15,6 @@ namespace CsKmsBackend.Infrastructure.Middlewares
 
 				if (userIdClaim != null)
 				{
-					Console.WriteLine($"This is it: {userIdClaim}");
 					currentUserService.UserId = int.Parse(userIdClaim.Value);
 				}
 			}

@@ -74,7 +74,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-				var users = await context.Users.AsNoTracking().ToListAsync();
+				var users = await context.Users.Include(u=>u.Departments).AsNoTracking().ToListAsync();
 				return users.Any() ? users : Enumerable.Empty<User>();
 			}
 			catch
@@ -87,7 +87,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-				var user = await context.Users.Where(predicate).FirstOrDefaultAsync();
+				var user = await context.Users.Where(predicate).Include(u => u.Departments).FirstOrDefaultAsync();
 				return user is not null && user.Id > 0 ? user : null;
 			}
 			catch
@@ -95,6 +95,11 @@ namespace CsKmsBackend.Infrastructure.Repositories
 				return null;
 			}
 		}
+
+		public async Task<List<Department>> GetDepartmentsByIdsAsync(List<int> ids) =>
+			await context.Departments
+			.Where(d => ids.Contains(d.Id))
+            .ToListAsync();
 
 		public async Task<ResponseKms> ResetPasswordAsync(User user)
 		{
@@ -155,16 +160,24 @@ namespace CsKmsBackend.Infrastructure.Repositories
 				var user = await FindByIdAsync(entity.Id);
 				if (user is null)
 					return new ResponseKms(false, "user not found");
-				entity.CreatedAt = user.CreatedAt;
-				entity.Password = user.Password;
-				context.Entry(user).State = EntityState.Detached;
-				context.Users.Update(entity);
+				MapUpdate(user, entity);
 				await context.SaveChangesAsync();
 				return new ResponseKms(true, "user successfully updated");
 			}
 			catch
 			{
 				return new ResponseKms(false, "Error ocurred while trying to update user");
+			}
+		}
+
+		private static void MapUpdate(User currentUser, User userUpdate)
+		{
+			currentUser.Name = userUpdate.Name;
+			currentUser.Email = userUpdate.Email;
+			currentUser.Role = userUpdate.Role;
+			if (userUpdate.Departments.Any()) { 
+				//currentUser.Departments.Clear();
+				currentUser.Departments = userUpdate.Departments;
 			}
 		}
 	}

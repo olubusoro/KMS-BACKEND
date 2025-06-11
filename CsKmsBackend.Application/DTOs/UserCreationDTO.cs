@@ -9,6 +9,6 @@ namespace CsKmsBackend.Application.DTOs
 		[Required, EmailAddress] string Email,
 		[Required, MinLength(8, ErrorMessage = "Password must be greather than or equal to 8 characters")] string Password,
 		[Required] UserRole Role,
-		[Required, MinLength(1, ErrorMessage = "Please pick one department")] List<int> Departments
+		[Required, MinLength(1, ErrorMessage = "Please pick one department")] List<int> DepartmentIds
 		);
 }

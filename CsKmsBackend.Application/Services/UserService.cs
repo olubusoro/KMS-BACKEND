@@ -22,6 +22,8 @@ namespace CsKmsBackend.Application.Services
 		public async Task<ResponseKms> CreateUserAsync(UserCreationDTO userCreationDTO)
 		{
 			var user = userCreationDTO.ToEntity();
+			var selectedDepartments = await userRepo.GetDepartmentsByIdsAsync(userCreationDTO.DepartmentIds);
+			user.Departments = selectedDepartments;
 			var response = await userRepo.CreateAsync(user);
 			return response;
 		}
@@ -45,7 +47,7 @@ namespace CsKmsBackend.Application.Services
 
 		public async Task<UserDTO?> GetUserByIdAsync(int id)
 		{
-			var user = await userRepo.FindByIdAsync(id);
+			var user = await userRepo.GetByAsync(u=>u.Id == id);
 			return user is not null ? user.ToDTO() : null;
 		}
 
@@ -56,9 +58,14 @@ namespace CsKmsBackend.Application.Services
 			return result;
 		}
 
-		public async Task<ResponseKms> UpdateUserAsync(UserDTO userDTO)
+		public async Task<ResponseKms> UpdateUserAsync(UserUpdateDTO userDTO)
 		{
 			var user = userDTO.ToEntity();
+			var selectedDepartments = await userRepo.GetDepartmentsByIdsAsync(userDTO.DepartmentIds);
+			if(selectedDepartments.Count > 0) { 
+				user.Departments.Clear();
+				user.Departments = selectedDepartments;
+			}
 			return await userRepo.UpdateAsync(user);
 		}
 	}

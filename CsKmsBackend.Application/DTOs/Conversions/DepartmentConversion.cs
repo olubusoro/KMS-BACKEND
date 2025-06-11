@@ -13,7 +13,6 @@ namespace CsKmsBackend.Application.DTOs.Conversions
         
         public static Department ToEntity(this CreateDepartmentDTO DepartmentDTO) => new Department
         {
-            Id = DepartmentDTO.Id,
 			Name = DepartmentDTO.Name,
             Description = DepartmentDTO.Description
         };
