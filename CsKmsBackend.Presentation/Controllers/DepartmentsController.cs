@@ -11,7 +11,7 @@ namespace CsKmsBackend.Presentation.Controllers
 	public class DepartmentsController(IDepartmentService departmentService) : ControllerBase
 	{
 		[HttpPost]
-		public async Task<ActionResult<ResponseKms>> CreateDepartment(DepartmentDTO departmentDTO)
+		public async Task<ActionResult<ResponseKms>> CreateDepartment(CreateDepartmentDTO departmentDTO)
 		{
 			var result = await departmentService.CreateDepartmentAsync(departmentDTO);
 

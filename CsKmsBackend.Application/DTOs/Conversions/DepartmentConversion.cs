@@ -10,10 +10,17 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			Name = DepartmentDTO.Name,
             Description = DepartmentDTO.Description
         };
+        
+        public static Department ToEntity(this CreateDepartmentDTO DepartmentDTO) => new Department
+        {
+			Name = DepartmentDTO.Name,
+            Description = DepartmentDTO.Description
+        };
 
         public static DepartmentDTO ToDTO(this Department department) => new DepartmentDTO(department.Id,
                         department.Name,
-                        department.Description);
+                        department.Description,
+                        department.Categories.ToDTO().ToList());
         
         public static IEnumerable<DepartmentDTO> ToDTO(this IEnumerable<Department> departments)
         {

@@ -6,7 +6,7 @@ namespace CsKmsBackend.Application.Interfaces
 	public interface IUserService
 	{
 		Task<ResponseKms> CreateUserAsync(UserCreationDTO userCreationDTO);
-		Task<ResponseKms> UpdateUserAsync(UserDTO userDTO);
+		Task<ResponseKms> UpdateUserAsync(UserUpdateDTO userDTO);
 		Task<ResponseKms> DeleteUserAsync(int id);
 		Task<IEnumerable<UserDTO>> GetAllUsersAsync();
 		Task<UserDTO?> GetUserByIdAsync(int id);

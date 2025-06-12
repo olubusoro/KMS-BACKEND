@@ -8,7 +8,8 @@ namespace CsKmsBackend.Application.DTOs
    (
         int Id,
         [Required] string Name,
-        string? Description
+        string? Description,
+        [Required] int DepartmentId
     );
 
     

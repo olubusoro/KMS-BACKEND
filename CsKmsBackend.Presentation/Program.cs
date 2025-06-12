@@ -50,7 +50,7 @@ if (app.Environment.IsDevelopment())
 if (args.Contains("--seed"))
 {
 	Console.WriteLine("?? Running seed process...");
-	await SeedUsers.SeedAsync(app.Services);
+	await SeedData.SeedAsync(app.Services);
 	Console.WriteLine("? Seeding complete.");
 	return; // exit after seeding
 }

@@ -11,7 +11,7 @@ namespace CsKmsBackend.Application.Services
 {
     public class DepartmentService(IDepartmentRepository departmentRepo) : IDepartmentService
     {
-        public async Task<ResponseKms> CreateDepartmentAsync(DepartmentDTO DepartmentDTO)
+        public async Task<ResponseKms> CreateDepartmentAsync(CreateDepartmentDTO DepartmentDTO)
         {
             var department = DepartmentDTO.ToEntity();
             var response = await departmentRepo.CreateAsync(department);
@@ -30,7 +30,7 @@ namespace CsKmsBackend.Application.Services
 
         public async Task<DepartmentDTO?> GetDepartmentByIdAsync(int id)
 		{
-			var department = await departmentRepo.FindByIdAsync(id);
+			var department = await departmentRepo.GetByAsync(d=>d.Id == id);
 			return department is not null ? department.ToDTO() : null;
 		}
 

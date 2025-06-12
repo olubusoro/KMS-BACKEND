@@ -6,13 +6,14 @@ using CsKmsBackend.Application.DTOs;
 
 namespace CsKmsBackend.Infrastructure.Data.Seed
 {
-	public static class SeedUsers
+	public static class SeedData
 	{
 		public static async Task SeedAsync(IServiceProvider services)
 		{
 			using var scope = services.CreateScope();
 			var db = scope.ServiceProvider.GetRequiredService<KmsDbContext>();
 
+			// Users
 			if (!db.Users.Any())
 			{
 				var json = await File.ReadAllTextAsync("../CsKmsBackend.Infrastructure/Data/Seed/users.json");
@@ -25,7 +26,7 @@ namespace CsKmsBackend.Infrastructure.Data.Seed
 						Name = u.Name,
 						Email = u.Email,
 						Password = BCrypt.Net.BCrypt.HashPassword(u.Password),
-						Departments = u.Departments,
+						Departments = db.Departments.Where(d=>u.DepartmentIds.Contains(d.Id)).ToList(),//(IList<Department>)u.DepartmentIds,
 						Role = u.Role,
 						CreatedAt = DateTime.UtcNow,
 					});

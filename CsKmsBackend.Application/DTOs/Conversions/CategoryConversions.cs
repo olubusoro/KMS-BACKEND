@@ -10,6 +10,7 @@ namespace CsKmsBackend.Application.DTOs.Conversions
             Id = categoryDTO.Id,
             Name = categoryDTO.Name,
             Description = categoryDTO.Description,
+            DepartmentId = categoryDTO.DepartmentId,
         };
 
         
@@ -17,8 +18,9 @@ namespace CsKmsBackend.Application.DTOs.Conversions
         (
             category.Id,
             category.Name,
-            category.Description
-            );
+            category.Description,
+			category.DepartmentId
+			);
 
         public static IEnumerable<CategoryDTO> ToDTO(this IEnumerable<Category> categories)
         {

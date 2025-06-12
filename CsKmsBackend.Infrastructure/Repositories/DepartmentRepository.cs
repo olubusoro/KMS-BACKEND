@@ -60,12 +60,12 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-				var departments = await context.Departments.AsNoTracking().ToListAsync();
+				var departments = await context.Departments.Include(d=>d.Categories).AsNoTracking().ToListAsync();
 				return departments.Any() ? departments : Enumerable.Empty<Department>();
 			}
 			catch
 			{
-				return Enumerable.Empty<Department>();
+				return [];
 			}
 		}
 
@@ -73,7 +73,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-				var department = await context.Departments.Where(predicate).FirstOrDefaultAsync();
+				var department = await context.Departments.Where(predicate).Include(d=>d.Categories).FirstOrDefaultAsync();
 				return department is not null && department.Id > 0 ? department : null;
 			}
 			catch

@@ -7,7 +7,7 @@
 		public string Email { get; set; }
 		public string Password { get; set; }
 		public UserRole Role { get; set; } = UserRole.Staff;
-		public List<int> Departments { get; set; } = [];
+		public IList<Department> Departments { get; set; } = [];
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	}
 }

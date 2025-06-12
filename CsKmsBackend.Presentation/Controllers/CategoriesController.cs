@@ -25,7 +25,7 @@ namespace CsKmsBackend.Presentation.Controllers
         }
 
         //delete put and post endpoints
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<ResponseKms>> DeleteCategory(int id)
         {
             var result = await categoryService.DeleteCategoryAsync(id);
