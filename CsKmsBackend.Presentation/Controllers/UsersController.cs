@@ -8,7 +8,7 @@ namespace CsKmsBackend.Presentation.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class UsersController(IUserService userService) : ControllerBase
+	public class UsersController(IUserService userService, ICurrentUserService currentUser) : ControllerBase
 	{
 		// POST: api/users
 		[HttpPost]
@@ -37,10 +37,19 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// GET: api/users/5
 		[HttpGet("{id:int}")]
-		[Authorize]
+		[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult<UserDTO>> GetUserById(int id)
 		{
 			var user = await userService.GetUserByIdAsync(id);
+			return user is not null ? Ok(user) : NotFound();
+		}
+
+		// GET: api/users/profile
+		[HttpGet("profile")]
+		[Authorize]
+		public async Task<ActionResult<UserDTO>> GetUserProfile()
+		{
+			var user = await userService.GetUserByIdAsync(currentUser.UserId);
 			return user is not null ? Ok(user) : NotFound();
 		}
 

@@ -24,6 +24,7 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 								user.Name,
 								user.Email,
 								user.Role,
+								user.Departments.Select(d=>d.Id).ToList(),
 								user.Departments.Select(d=>d.Name).ToList(),
 								user.CreatedAt);
 
