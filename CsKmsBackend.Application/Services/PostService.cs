@@ -18,11 +18,13 @@ namespace CsKmsBackend.Application.Services
 			var post = postCreationDTO.ToEntity();
 			post.UserId = userId;
 
-			var uploadRoot = Path.Combine($"Uploads/Attachments/Departments/Category");
-			if(!Directory.Exists(uploadRoot))
-				Directory.CreateDirectory(uploadRoot);
+			
 
 			if(postCreationDTO.Attachments is not null) { 
+				var uploadRoot = Path.Combine($"Uploads/Attachments/{postCreationDTO.DepartmentName}/{postCreationDTO.CategoryName}");
+				if(!Directory.Exists(uploadRoot))
+					Directory.CreateDirectory(uploadRoot);
+
 				foreach (var file in postCreationDTO.Attachments)
 				{
 					var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
