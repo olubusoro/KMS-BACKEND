@@ -30,7 +30,7 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			post.Visibility,
 			post.CategoryId,
 			post.CreatedBy.Name,
-			post.Attachments.Select(a=>new PostAttachmentDTO(a.FileName,a.FilePath)).ToList());
+			post.Attachments.Select(a=>new PostAttachmentDTO(a.Id, a.OriginalFileName,a.ContentType)).ToList());
 		
 
 		public static IEnumerable<PostDTO> ToDTO(this IEnumerable<Post> posts)
