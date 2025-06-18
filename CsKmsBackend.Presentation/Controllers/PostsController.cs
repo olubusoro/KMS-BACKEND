@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace CsKmsBackend.Presentation.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class PostsController(IPostService postService, ICurrentUserService currentUser) : ControllerBase
 	{
@@ -28,10 +28,13 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpGet("{id:int}")]
-		public async Task<ActionResult<PostDTO>> GetPost(int id)
+		public async Task<ActionResult<PostAccessResponse>> GetPostById(int id)
 		{
-			var post = await postService.GetPostAsync(id);
-			return post is not null ? Ok(post) : NotFound();
+			var response = await postService.GetPostWithAccessAsync(id, currentUser.UserId);
+			if (response == null)
+				return NotFound();
+
+			return Ok(response);
 		}
 
 		[HttpGet("{postId:int}/attachments/{attachmentId:int}")]

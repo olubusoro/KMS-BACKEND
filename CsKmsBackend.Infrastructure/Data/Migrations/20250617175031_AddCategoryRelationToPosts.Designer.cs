@@ -4,6 +4,7 @@ using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CsKmsBackend.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(KmsDbContext))]
-    partial class KmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250617175031_AddCategoryRelationToPosts")]
+    partial class AddCategoryRelationToPosts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

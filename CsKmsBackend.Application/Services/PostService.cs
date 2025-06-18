@@ -3,8 +3,7 @@ using CsKmsBackend.Application.DTOs.Conversions;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
-using Microsoft.Extensions.Logging;
-using System.Net.Mail;
+using CsKmsBackend.Domain.Models.Enums;
 
 namespace CsKmsBackend.Application.Services
 {
@@ -123,6 +122,74 @@ namespace CsKmsBackend.Application.Services
 		{
 			var posts = await postRepo.SearchAsync(search);
 			return posts.ToDTO();
+		}
+
+		public async Task<PostAccessResponse?> GetPostWithAccessAsync(int postId, int userId)
+		{
+			var post = await postRepo.GetByIdWithDetailsAsync(postId);
+			if (post == null)
+				return null;
+			var postDTO = post.ToDTO();
+
+			var result = new PostAccessResponse
+			{
+				Title = post.Title
+			};
+
+			// Public – allow access to anyone
+			if (post.Visibility.ToLower() == "public") //Visibility.Public)
+			{
+				result.AccessGranted = true;
+				result.Post = postDTO;
+				return result;
+			}
+
+			// Private – only owner or approved request
+			if (post.Visibility.ToLower() == "private")  //Visibility.Private)
+			{
+				if (post.UserId == userId)
+				{
+					result.AccessGranted = true;
+					result.Post = postDTO;
+					return result;
+				}
+
+				var request = await postRepo.GetAccessRequestAsync(postId, userId);
+				if (request?.Status == Status.Approved)
+				{
+					result.AccessGranted = true;
+					result.Post = postDTO;
+					return result;
+				}
+
+				result.AccessRequestStatus = request?.Status.ToString() ?? "NotRequested";
+				return result;
+			}
+
+			// DepartmentRestricted – user must belong to department or have approved request
+			if (post.Visibility.ToLower() == "department") //Visibility.DepartmentRestricted)
+			{
+				var user = await postRepo.GetUserWithDepartmentsAsync(userId);
+				if (user!.Departments.Any(d => d.Id == post.Category.DepartmentId))
+				{
+					result.AccessGranted = true;
+					result.Post = postDTO;
+					return result;
+				}
+
+				var request = await postRepo.GetAccessRequestAsync(postId, userId);
+				if (request?.Status == Status.Approved)
+				{
+					result.AccessGranted = true;
+					result.Post = postDTO;
+					return result;
+				}
+
+				result.AccessRequestStatus = request?.Status.ToString() ?? "NotRequested";
+				return result;
+			}
+
+			return result;
 		}
 	}
 }

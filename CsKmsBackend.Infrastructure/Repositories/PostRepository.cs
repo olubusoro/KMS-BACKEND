@@ -2,7 +2,6 @@
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace CsKmsBackend.Infrastructure.Repositories
@@ -60,6 +59,21 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			}
 		}
 
+		public async Task<AccessRequest?> GetAccessRequestAsync(int postId, int userId)
+		{
+			try
+			{
+				var accessRequest = await context.AccessRequests
+					.FirstOrDefaultAsync(ar => ar.PostId == postId && ar.UserId == userId);
+				return accessRequest is not null && accessRequest.Id > 0 
+					? accessRequest : null;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
 		public async Task<IEnumerable<Post>> GetAllAsync()
 		{
 			try
@@ -89,12 +103,47 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			}
 		}
 
+		public async Task<Post?> GetByIdWithDetailsAsync(int id)
+		{
+			try
+			{
+				var post = await context.Posts
+					.Include(p => p.Category)
+						.ThenInclude(c => c.Department)
+					.Include(p => p.Attachments)
+					.Include(p => p.CreatedBy)
+					.FirstOrDefaultAsync(p => p.Id == id);
+
+				return post is not null && post.Id > 0 ? post : null;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public async Task<User?> GetUserWithDepartmentsAsync(int userId)
+		{
+			try
+			{
+				var user = await context.Users
+					.Include(u => u.Departments)
+					.FirstOrDefaultAsync(u => u.Id == userId);
+
+				return user is not null && user.Id > 0 ? user : null;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
 		public async Task<IEnumerable<Post>> SearchAsync(string search)
 		{
 			try
 			{
 				var posts = await context.Posts.Where(
-					p => p.Title.Contains(search) 
+					p => p.Title.Contains(search)
 					|| (p.Description != null && p.Description.Contains(search)))
 					.Include(p=>p.CreatedBy)
 					.Include(p=>p.Attachments)
