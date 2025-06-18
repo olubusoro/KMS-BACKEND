@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CsKmsBackend.Application.DTOs.AccessRequests
 {
-	public record AccessRequestDTO(
-		int Id,
-		string KnowledgeTitle,
-		string RequesterName,
-		string Status,
+	public record AccessRequestUpdateDTO(
+		[Required] int Id,
+		[Required] int PostId,
+		[Required] int UserId,
+		Status Status,
 		string Reason
 		);
 }

@@ -1,6 +1,7 @@
 ﻿using CsKmsBackend.Application.DTOs.AccessRequests;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sprache;
@@ -25,6 +26,24 @@ namespace CsKmsBackend.Presentation.Controllers
 		{
 			var accessRequests = await accessRequestService.GetAllRequestAsync();
 			return Ok(accessRequests);
+		}
+
+		[HttpGet("private")]
+		// [Authorize]
+		public async Task<ActionResult<IEnumerable<AccessRequestDTO>>> GetPrivateRequests()
+		{
+			var requests = await accessRequestService
+				.GetRequestsForPrivatePostsAsync(currentUser.UserId);
+			return Ok(requests);
+		}
+
+		[HttpGet("department")]
+		// [Authorize(Roles = "deptAdmin")]
+		public async Task<ActionResult<IEnumerable<AccessRequestDTO>>> GetDepartmentRequests()
+		{
+			var requests = await accessRequestService
+				.GetRequestsForDepartmentAdminsAsync(currentUser.UserId);
+			return Ok(requests);
 		}
 
 		[HttpGet("{id:int}")]

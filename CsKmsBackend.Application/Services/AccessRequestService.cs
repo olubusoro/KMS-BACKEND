@@ -63,7 +63,19 @@ namespace CsKmsBackend.Application.Services
 			return request?.ToDTO();
 		}
 
-		public async Task<ResponseKms> UpdateRequestReasonAsync(AccessRequestDTO accessRequestDTO)
+		public async Task<IEnumerable<AccessRequestDTO>> GetRequestsForDepartmentAdminsAsync(int deptAdminId)
+		{
+			var requests = await accessRequestRepo.GetRequestsForDepartmentAdminsAsync(deptAdminId);
+			return requests.Any() ? requests.ToDTO() : [];
+		}
+
+		public async Task<IEnumerable<AccessRequestDTO>> GetRequestsForPrivatePostsAsync(int creatorUserId)
+		{
+			var requests = await accessRequestRepo.GetRequestsForPrivatePostsAsync(creatorUserId);
+			return requests.Any() ? requests.ToDTO() : [];
+		}
+
+		public async Task<ResponseKms> UpdateRequestReasonAsync(AccessRequestUpdateDTO accessRequestDTO)
 		{
 			var request = accessRequestDTO.ToEntity();
 			var result = await accessRequestRepo.UpdateAsync(request);
