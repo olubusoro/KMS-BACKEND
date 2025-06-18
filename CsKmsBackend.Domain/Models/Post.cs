@@ -7,8 +7,8 @@
 		public string? Description { get; set; }
 		public string Content { get; set; }
 		public string Visibility { get; set; }
-		public int? CategoryId { get; set; } // int? because no category yet
-		//public Category Category { get; set; }
+		public int? CategoryId { get; set; }
+		public Category Category { get; set; }
 		public int? UserId { get; set; }
 		public User CreatedBy { get; set; }
 		public IList<PostAttachment> Attachments { get; set; } = [];
