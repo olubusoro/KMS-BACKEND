@@ -11,7 +11,7 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			Reason = accessRequestDTO.Reason,
 		};
 
-		public static AccessRequest ToEntity(this AccessRequestDTO accessRequestDTO) => new()
+		public static AccessRequest ToEntity(this AccessRequestUpdateDTO accessRequestDTO) => new()
 		{
 			Id = accessRequestDTO.Id,
 			PostId = accessRequestDTO.PostId,
@@ -22,11 +22,12 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 
 		public static AccessRequestDTO ToDTO(this AccessRequest accessRequest) => new(
 			accessRequest.Id,
-			accessRequest.PostId,
-			accessRequest.UserId,
-			accessRequest.Status,
+			accessRequest.RequestedPost.Title,
+			accessRequest.RequestedBy.Name,
+			accessRequest.Status.ToString(),
 			accessRequest.Reason
 			);
+
 		public static IEnumerable<AccessRequestDTO> ToDTO(this IEnumerable<AccessRequest> accessRequests)
 		{
 			var accessRequestDTOs = new List<AccessRequestDTO>();

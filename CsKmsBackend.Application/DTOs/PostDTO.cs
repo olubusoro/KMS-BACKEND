@@ -10,5 +10,6 @@ namespace CsKmsBackend.Application.DTOs
 		[Required] string Visibility,
 		int? CategoryId,
 		[Required] string UserName,
+		DateTime CreatedAt,
 		List<PostAttachmentDTO>? Attachments);
 }

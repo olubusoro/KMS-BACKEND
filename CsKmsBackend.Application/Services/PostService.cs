@@ -1,5 +1,6 @@
 ﻿using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.DTOs.Conversions;
+using CsKmsBackend.Application.DTOs.PostDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
@@ -95,10 +96,10 @@ namespace CsKmsBackend.Application.Services
 			return attachment;
 		}
 
-		public async Task<IEnumerable<PostDTO>> GetAllPostsAsync()
+		public async Task<IEnumerable<PostListDTO>> GetAllPostsAsync()
 		{
 			var posts = await postRepo.GetAllAsync();
-			return posts.ToDTO();
+			return posts.ToListDTO();
 		}
 
 		public async Task<PostDTO?> GetPostAsync(int id)
@@ -118,10 +119,10 @@ namespace CsKmsBackend.Application.Services
 			return result;
 		}
 
-		public async Task<IEnumerable<PostDTO>> GetPostBySearchAsync(string search)
+		public async Task<IEnumerable<PostListDTO>> GetPostBySearchAsync(string search)
 		{
 			var posts = await postRepo.SearchAsync(search);
-			return posts.ToDTO();
+			return posts.ToListDTO();
 		}
 
 		public async Task<PostAccessResponse?> GetPostWithAccessAsync(int postId, int userId)

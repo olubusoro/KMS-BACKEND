@@ -53,10 +53,20 @@ namespace CsKmsBackend.Presentation.Controllers
 			return user is not null ? Ok(user) : NotFound();
 		}
 
+		// GET: api/users/role
+		[HttpGet("role")]
+		[Authorize]
+		public async Task<ActionResult<ResponseKms>> GetUserRole()
+		{
+			var response = await userService.GetUserRoleByIdAsync(currentUser.UserId);
+			return Ok(response);
+		}
+		
+
 		// PUT: api/users
 		[HttpPut]
 		[Authorize]
-		public async Task<ActionResult<ResponseKms>> UpdateUser(UserUpdateDTO userDTO)
+        public async Task<ActionResult<ResponseKms>> UpdateUser(UserUpdateDTO userDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
 			var result = await userService.UpdateUserAsync(userDTO);

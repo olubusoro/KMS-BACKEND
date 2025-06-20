@@ -13,5 +13,6 @@ namespace CsKmsBackend.Application.Interfaces
 		Task<UserDTO?> GetUserByEmailAsync(string email);
 		Task<ResponseKms> ChangeUserPasswordAsync(int id,  ChangePasswordDTO changePasswordDTO);
 		Task<ResponseKms> ResetUserPasswordAsync(int id);
+		Task<ResponseKms> GetUserRoleByIdAsync(int id);
 	}
 }

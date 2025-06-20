@@ -1,5 +1,6 @@
 ﻿using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
+using CsKmsBackend.Domain.Models.Enums;
 using CsKmsBackend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -137,6 +138,49 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			catch
 			{
 				return new ResponseKms(false, "Error occurred while trying to deny access request");
+			}
+		}
+
+		public async Task<IEnumerable<AccessRequest>> GetRequestsForPrivatePostsAsync(int creatorUserId)
+		{
+			try { 
+				var accessRequests = await context.AccessRequests
+					.Include(ar => ar.RequestedPost)
+					.Include(ar => ar.RequestedBy)
+					.Where(ar =>
+					ar.RequestedPost.Visibility == "private" &&
+					ar.RequestedPost.UserId == creatorUserId /*&&
+					ar.Status == Status.Pending*/).AsNoTracking().ToListAsync();
+			return accessRequests.Count > 0 ? accessRequests : [];
+			}catch
+			{
+				return [];
+			}
+		}
+
+		public async Task<IEnumerable<AccessRequest>> GetRequestsForDepartmentAdminsAsync(int deptAdminId)
+		{
+			try
+			{
+				var user = await context.Users
+					.Where(u => u.Id == deptAdminId)
+					.Include(u=>u.Departments).AsNoTracking()
+					.FirstOrDefaultAsync();
+				var departmentIds = user.Departments.Select(d=>d.Id).ToList();
+				var accessRequests = await context.AccessRequests
+					.Include(ar => ar.RequestedPost)
+						.ThenInclude(p => p.Category)
+					.Include(ar => ar.RequestedBy)
+					.Where(ar =>
+						ar.RequestedPost.Visibility == "department" &&
+						departmentIds.Contains(ar.RequestedPost.Category.DepartmentId) /*&&
+						ar.Status == Status.Pending*/)
+					.AsNoTracking().ToListAsync();
+				return accessRequests.Count > 0 ? accessRequests : [];
+			}
+			catch
+			{
+				return [];
 			}
 		}
 	}

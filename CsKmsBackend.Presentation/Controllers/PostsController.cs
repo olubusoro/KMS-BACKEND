@@ -1,4 +1,5 @@
 ﻿using CsKmsBackend.Application.DTOs;
+using CsKmsBackend.Application.DTOs.PostDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		} 
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<PostDTO>>> GetAllPosts([FromQuery] string search = null)
+		public async Task<ActionResult<IEnumerable<PostListDTO>>> GetAllPosts([FromQuery] string search = null)
 		{
 			if (!string.IsNullOrEmpty(search))
 				return Ok(await postService.GetPostBySearchAsync(search));

@@ -1,4 +1,5 @@
-﻿using CsKmsBackend.Domain.Models;
+﻿using CsKmsBackend.Application.DTOs.PostDTOs;
+using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.DTOs.Conversions
 {
@@ -30,7 +31,9 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			post.Visibility,
 			post.CategoryId,
 			post.CreatedBy.Name,
-			post.Attachments.Select(a=>new PostAttachmentDTO(a.Id, a.OriginalFileName,a.ContentType)).ToList());
+			post.CreatedAt,
+			post.Attachments.Select(a=>new PostAttachmentDTO(a.Id, a.OriginalFileName,a.ContentType)).ToList()
+			);
 		
 
 		public static IEnumerable<PostDTO> ToDTO(this IEnumerable<Post> posts)
@@ -39,6 +42,24 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			foreach (var post in posts)
 			{
 				postDTOs.Add(ToDTO(post));
+			}
+			return postDTOs;
+		}
+
+		public static PostListDTO ToListDTO(this Post post) => new(
+			post.Id,
+			post.Title,
+			post.Description ?? "",
+			post.CreatedBy.Name,
+			post.CreatedAt
+			);
+
+		public static IEnumerable<PostListDTO> ToListDTO(this IEnumerable<Post> posts)
+		{
+			var postDTOs = new List<PostListDTO>();
+			foreach (var post in posts)
+			{
+				postDTOs.Add(ToListDTO(post));
 			}
 			return postDTOs;
 		}

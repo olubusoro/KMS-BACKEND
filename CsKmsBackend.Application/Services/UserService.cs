@@ -51,6 +51,16 @@ namespace CsKmsBackend.Application.Services
 			return user is not null ? user.ToDTO() : null;
 		}
 
+		public async Task<ResponseKms> GetUserRoleByIdAsync(int id)
+		{
+			var user = await userRepo.GetByAsync(u => u.Id == id);
+			var userRole = user?.Role.ToString();
+			return userRole is not null 
+				? new ResponseKms(true, userRole) 
+				: new ResponseKms(false, "error occured");
+
+		}
+
 		public async Task<ResponseKms> ResetUserPasswordAsync(int id)
 		{
 			var user = await userRepo.FindByIdAsync(id);
