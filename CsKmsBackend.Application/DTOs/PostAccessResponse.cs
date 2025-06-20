@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs.PostDTOs;
+﻿using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.DTOs
