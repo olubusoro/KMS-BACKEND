@@ -149,8 +149,8 @@ namespace CsKmsBackend.Infrastructure.Repositories
 					.Include(ar => ar.RequestedBy)
 					.Where(ar =>
 					ar.RequestedPost.Visibility == "private" &&
-					ar.RequestedPost.UserId == creatorUserId &&
-					ar.Status == Status.Pending).AsNoTracking().ToListAsync();
+					ar.RequestedPost.UserId == creatorUserId /*&&
+					ar.Status == Status.Pending*/).AsNoTracking().ToListAsync();
 			return accessRequests.Count > 0 ? accessRequests : [];
 			}catch
 			{
@@ -173,8 +173,8 @@ namespace CsKmsBackend.Infrastructure.Repositories
 					.Include(ar => ar.RequestedBy)
 					.Where(ar =>
 						ar.RequestedPost.Visibility == "department" &&
-						departmentIds.Contains(ar.RequestedPost.Category.DepartmentId) &&
-						ar.Status == Status.Pending)
+						departmentIds.Contains(ar.RequestedPost.Category.DepartmentId) /*&&
+						ar.Status == Status.Pending*/)
 					.AsNoTracking().ToListAsync();
 				return accessRequests.Count > 0 ? accessRequests : [];
 			}

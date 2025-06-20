@@ -5,7 +5,7 @@ namespace CsKmsBackend.Application.DTOs.AccessRequests
 {
 	public record AccessRequestDTO(
 		int Id,
-		string KnowledgeTitle,
+		string PostTitle,
 		string RequesterName,
 		string Status,
 		string Reason
