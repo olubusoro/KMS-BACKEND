@@ -17,6 +17,7 @@ namespace CsKmsBackend.Application.DependencyInjection
 			services.AddScoped<ICategoryService, CategoryService>();
 			services.AddScoped<IAuditLoggerService, AuditLoggerService>();
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
+			services.AddScoped<INotificationService, NotificationService>();
 
 
 			return services;

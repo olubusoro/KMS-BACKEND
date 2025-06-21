@@ -7,7 +7,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CsKmsBackend.Application.Services
 {
-    public class AccessRequestService(IAccessRequestRepository accessRequestRepo, IAuditLoggerService logger) : IAccessRequestService
+    public class AccessRequestService(IAccessRequestRepository accessRequestRepo,
+		IAuditLoggerService logger, INotificationService notificationService) : IAccessRequestService
 	{
 		public async Task<ResponseKms> ApproveRequestAsync(int userId, int id)
 		{
@@ -15,6 +16,8 @@ namespace CsKmsBackend.Application.Services
 			if (result.Flag)
 			{
 				await logger.LogAsync(Domain.Models.Enums.ActionType.ApproveAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
+				var request = await accessRequestRepo.GetByAsync(r => r.Id == id);
+				await notificationService.CreateNotificationAsync(new() { UserId=request.UserId, Title="Access Request Approved", Message=$"Your request to view '{request.RequestedPost.Title}' was approved."});
 			}
 			return result;
 		}
@@ -47,6 +50,8 @@ namespace CsKmsBackend.Application.Services
 			if (result.Flag)
 			{
 				await logger.LogAsync(Domain.Models.Enums.ActionType.DenyAccess, userId, Domain.Models.Enums.EntityType.AccessRequest, id);
+				var request = await accessRequestRepo.GetByAsync(r => r.Id == id);
+				await notificationService.CreateNotificationAsync(new() { UserId = request.UserId, Title = "Access Request Denied", Message = $"Your request to view '{request.RequestedPost.Title}' was denied." });
 			}
 			return result;
 		}

@@ -2,11 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using System;
-using CsKmsBackend.Application.DTOs;
+using CsKmsBackend.Application.DTOs.UserDTOs;
 
 namespace CsKmsBackend.Infrastructure.Data.Seed
 {
-	public static class SeedData
+    public static class SeedData
 	{
 		public static async Task SeedAsync(IServiceProvider services)
 		{

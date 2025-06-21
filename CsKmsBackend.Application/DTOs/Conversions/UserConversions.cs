@@ -1,8 +1,9 @@
-﻿using CsKmsBackend.Domain.Models;
+﻿using CsKmsBackend.Application.DTOs.UserDTOs;
+using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.DTOs.Conversions
 {
-	public static class UserConversions
+    public static class UserConversions
 	{
 		public static User ToEntity(this UserCreationDTO userCreationDTO) => new User
 		{

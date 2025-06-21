@@ -1,5 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs;
-using CsKmsBackend.Application.DTOs.PostDTOs;
+﻿using CsKmsBackend.Application.DTOs.PostDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;

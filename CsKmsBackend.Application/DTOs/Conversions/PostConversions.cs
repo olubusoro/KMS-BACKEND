@@ -3,7 +3,7 @@ using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.DTOs.Conversions
 {
-	public static class PostConversions
+    public static class PostConversions
 	{
 		public static Post ToEntity(this PostCreationDTO postCreationDTO) => new()
 		{

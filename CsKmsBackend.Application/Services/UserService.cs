@@ -1,5 +1,5 @@
-﻿using CsKmsBackend.Application.DTOs;
-using CsKmsBackend.Application.DTOs.Conversions;
+﻿using CsKmsBackend.Application.DTOs.Conversions;
+using CsKmsBackend.Application.DTOs.UserDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;

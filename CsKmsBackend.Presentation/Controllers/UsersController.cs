@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs;
+﻿using CsKmsBackend.Application.DTOs.UserDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CsKmsBackend.Presentation.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class UsersController(IUserService userService, ICurrentUserService currentUser) : ControllerBase
 	{

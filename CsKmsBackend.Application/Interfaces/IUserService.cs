@@ -1,9 +1,9 @@
-﻿using CsKmsBackend.Application.DTOs;
+﻿using CsKmsBackend.Application.DTOs.UserDTOs;
 using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.Interfaces
 {
-	public interface IUserService
+    public interface IUserService
 	{
 		Task<ResponseKms> CreateUserAsync(UserCreationDTO userCreationDTO);
 		Task<ResponseKms> UpdateUserAsync(UserUpdateDTO userDTO);

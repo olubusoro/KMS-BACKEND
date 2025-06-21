@@ -18,6 +18,16 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 		public static IServiceCollection AddInfrastructureService(this IServiceCollection services, IConfiguration config)
 		{
 			// DbContext Connection
+			//var dbConnection = config.GetConnectionString("SqlConnection") ?? config.GetConnectionString("PgSqlConnection");
+			//if (dbConnection.StartsWith("Host")) {
+			//	services.AddDbContext<KmsDbContext>(options => 
+			//	options.UseNpgSql(dbConnection));
+			//}
+			//else
+			//{
+			//	services.AddDbContext<KmsDbContext>(options => 
+			//	options.UseSqlServer(dbConnection));
+			//}
 			services.AddDbContext<KmsDbContext>(options => options.UseSqlServer(
 				config.GetConnectionString("ExpressConnection")
 				)); //, sqlserverOption => sqlserverOption.EnableRetryOnFailure()));
@@ -29,6 +39,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			services.AddScoped<ICategoryRepository, CategoryRepository>();
 			services.AddScoped<ILogRepository, LogRepository>();
+			services.AddScoped<INotificationRepository, NotificationRepository>();
 			services.AddApplicationService();
 
 			// JWT service

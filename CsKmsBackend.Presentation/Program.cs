@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using CsKmsBackend.Infrastructure.Data.Seed;
 using CsKmsBackend.Infrastructure.DependencyInjection;
 using DotNetEnv;
@@ -35,7 +36,11 @@ builder.Services.AddSwaggerGen(options =>
 			{jwtSecurityScheme, new string[]{} }
 		});
 });
-
+builder.Services.AddOptions();
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddInfrastructureService(builder.Configuration);
 
 var app = builder.Build();
@@ -58,6 +63,8 @@ if (args.Contains("--seed"))
 app.UseCors("AllowReactApp");
 
 app.UseHttpsRedirection();
+
+app.UseIpRateLimiting();
 
 app.UseAuthentication();
 
