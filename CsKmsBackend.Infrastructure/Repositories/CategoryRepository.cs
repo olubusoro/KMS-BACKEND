@@ -110,5 +110,20 @@ namespace CsKmsBackend.Infrastructure.Repositories
             originalCategory.Name = CategoryUpdate.Name ?? originalCategory.Name;
           
         }
-    }
+
+		public async Task<IEnumerable<Category>> GetAllByUserIdAsync(int userId)
+		{
+            try
+            {
+                var user = await context.Users.Include(u=>u.Departments).AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
+                var deptIds = user?.Departments.Select(d=> d.Id).ToList();
+                var categories = await context.Categories.Where(c=>deptIds.Contains(c.DepartmentId)).ToListAsync();
+                return categories.Count > 0 ? categories : [];
+            }
+            catch
+            {
+                return [];
+            }
+		}
+	}
 }

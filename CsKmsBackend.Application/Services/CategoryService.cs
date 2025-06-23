@@ -24,16 +24,16 @@ namespace CsKmsBackend.Application.Services
             return result;
         }
 
-        public async Task<IEnumerable<CategoryDTO>> GetAllCategoryAsync()
+        public async Task<IEnumerable<CategoryDTO>> GetAllCategoryAsync(int userId)
         {
-            var categories = await CategoryRepo.GetAllAsync();
-            return categories.Count() > 0 ? categories.ToDTO() : Enumerable.Empty<CategoryDTO>();
+            var categories = await CategoryRepo.GetAllByUserIdAsync(userId);
+            return categories.Any() ? categories.ToDTO() : [];
         }
 
         public async Task<CategoryDTO?> GetCategoryAsync(int id)
         {
             var category = await CategoryRepo.FindByIdAsync(id);
-            return category.ToDTO();
+            return category?.ToDTO();
         }
 
         public async Task<ResponseKms> UpdateCategoryAsync(CategoryDTO CategoryUpdateDTO)

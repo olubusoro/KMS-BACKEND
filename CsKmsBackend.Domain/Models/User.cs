@@ -1,6 +1,8 @@
-﻿namespace CsKmsBackend.Domain.Models
+﻿using CsKmsBackend.Domain.Models.Enums;
+
+namespace CsKmsBackend.Domain.Models
 {
-	public class User
+    public class User
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

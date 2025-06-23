@@ -172,7 +172,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			}
 		}
 
-		private void MapUpdate(Post originalPost, Post postUpdate)
+		private static void MapUpdate(Post originalPost, Post postUpdate)
 		{
 			originalPost.Title = postUpdate.Title ?? originalPost.Title;
 			originalPost.Description = postUpdate.Description ?? originalPost.Description;

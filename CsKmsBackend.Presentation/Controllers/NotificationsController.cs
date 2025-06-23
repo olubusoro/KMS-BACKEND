@@ -1,12 +1,14 @@
 ﻿using CsKmsBackend.Application.DTOs.NotificationDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CsKmsBackend.Presentation.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class NotificationsController(INotificationService notificationService,
 		ICurrentUserService currentUser) : ControllerBase
 	{

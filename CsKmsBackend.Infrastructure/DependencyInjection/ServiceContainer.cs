@@ -18,19 +18,20 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 		public static IServiceCollection AddInfrastructureService(this IServiceCollection services, IConfiguration config)
 		{
 			// DbContext Connection
-			//var dbConnection = config.GetConnectionString("SqlConnection") ?? config.GetConnectionString("PgSqlConnection");
-			//if (dbConnection.StartsWith("Host")) {
-			//	services.AddDbContext<KmsDbContext>(options => 
-			//	options.UseNpgSql(dbConnection));
-			//}
-			//else
-			//{
-			//	services.AddDbContext<KmsDbContext>(options => 
-			//	options.UseSqlServer(dbConnection));
-			//}
-			services.AddDbContext<KmsDbContext>(options => options.UseSqlServer(
-				config.GetConnectionString("ExpressConnection")
-				)); //, sqlserverOption => sqlserverOption.EnableRetryOnFailure()));
+			var dbConnection = config.GetConnectionString("SqlConnection") ?? config.GetConnectionString("PgSqlConnection");
+			if (config.GetConnectionString("SqlConnection") is not null)
+			{
+				services.AddDbContext<KmsDbContext>(options =>
+				options.UseSqlServer(dbConnection));
+			}
+			else
+			{
+				services.AddDbContext<KmsDbContext>(options =>
+				options.UseNpgsql(dbConnection));
+			}
+			//services.AddDbContext<KmsDbContext>(options => options.UseSqlServer(
+			//	config.GetConnectionString("ExpressConnection")
+			//	)); //, sqlserverOption => sqlserverOption.EnableRetryOnFailure()));
 
 			// Dependency Injection
 			services.AddScoped<IUserRepository, UserRepository>();
@@ -66,7 +67,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 			{
 				options.AddPolicy("AllowReactApp",
 					policy => policy
-						.WithOrigins(config["Authentication:Audience"]!) // React dev server
+						.WithOrigins(config["Authentication:Audience"]!) // Frontend Server
 						.AllowAnyHeader()
 						.AllowAnyMethod());
 			});

@@ -1,6 +1,7 @@
 ﻿using CsKmsBackend.Application.DTOs.UserDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
+using CsKmsBackend.Domain.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

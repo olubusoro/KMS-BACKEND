@@ -14,6 +14,7 @@ namespace CsKmsBackend.Presentation.Controllers
 	public class AccessRequestsController(IAccessRequestService accessRequestService, ICurrentUserService currentUser) : ControllerBase
 	{
 		[HttpPost]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> RequestAccess(AccessRequestCreationDTO accessRequestCreationDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -21,15 +22,16 @@ namespace CsKmsBackend.Presentation.Controllers
 			return response.Flag ? Ok(response) : BadRequest(response);
 		}
 
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<AccessRequestDTO>>> GetAccessRequests()
-		{
-			var accessRequests = await accessRequestService.GetAllRequestAsync();
-			return Ok(accessRequests);
-		}
+		//[HttpGet]
+		//[Authorize]
+		//public async Task<ActionResult<IEnumerable<AccessRequestDTO>>> GetAccessRequests()
+		//{
+		//	var accessRequests = await accessRequestService.GetAllRequestAsync();
+		//	return Ok(accessRequests);
+		//}
 
 		[HttpGet("private")]
-		// [Authorize]
+		[Authorize]
 		public async Task<ActionResult<IEnumerable<AccessRequestDTO>>> GetPrivateRequests()
 		{
 			var requests = await accessRequestService
@@ -38,7 +40,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpGet("department")]
-		// [Authorize(Roles = "deptAdmin")]
+		[Authorize(Roles = "deptAdmin")]
 		public async Task<ActionResult<IEnumerable<AccessRequestDTO>>> GetDepartmentRequests()
 		{
 			var requests = await accessRequestService
@@ -47,6 +49,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpGet("{id:int}")]
+		[Authorize]
 		public async Task<ActionResult<AccessRequestDTO>> GetAccessRequest(int id)
 		{
 			var accessRequest = await accessRequestService.GetRequestAsync(id);
@@ -54,6 +57,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpDelete("{id:int}")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> CancelAccessRequest(int id)
 		{
 			var response = await accessRequestService.DeleteRequestAsync(currentUser.UserId, id);
@@ -61,6 +65,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpPatch("{id:int}/approve")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> ApproveRequest(int id)
 		{
 			var response = await accessRequestService.ApproveRequestAsync(currentUser.UserId, id);
@@ -68,6 +73,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpPatch("{id:int}/deny")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> DenyRequest(int id)
 		{
 			var response = await accessRequestService.DenyRequestAsync(currentUser.UserId, id);

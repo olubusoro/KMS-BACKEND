@@ -12,7 +12,7 @@ namespace CsKmsBackend.Application.Interfaces
         Task<ResponseKms> UpdateCategoryAsync(CategoryDTO CategoryUpdateDTO);
 
         Task<CategoryDTO?> GetCategoryAsync(int id);
-        Task<IEnumerable<CategoryDTO>> GetAllCategoryAsync();
+        Task<IEnumerable<CategoryDTO>> GetAllCategoryAsync(int userId);
 
     }
 }

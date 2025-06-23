@@ -1,13 +1,14 @@
 ﻿using CsKmsBackend.Application.DTOs.PostDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CsKmsBackend.Presentation.Controllers
 {
     [Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class PostsController(IPostService postService, ICurrentUserService currentUser) : ControllerBase
 	{
 		[HttpPost]

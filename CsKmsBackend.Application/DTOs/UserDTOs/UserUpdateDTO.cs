@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Domain.Models;
+﻿using CsKmsBackend.Domain.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CsKmsBackend.Application.DTOs.UserDTOs
