@@ -19,7 +19,7 @@ namespace CsKmsBackend.Application.DependencyInjection
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
 			services.AddScoped<INotificationService, NotificationService>();
 			services.AddScoped<IEmailService, EmailService>();
-
+			services.AddScoped<IFeedbackService, FeedbackService>();
 
 			return services;
 		}

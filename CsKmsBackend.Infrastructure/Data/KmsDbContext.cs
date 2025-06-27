@@ -14,6 +14,7 @@ namespace CsKmsBackend.Infrastructure.Data
 		public DbSet<Department> Departments { get; set; }
 		public DbSet<Log> Logs { get; set; }
 		public DbSet<Notification> Notifications { get; set; }
+		public DbSet<Feedback> Feedbacks { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
