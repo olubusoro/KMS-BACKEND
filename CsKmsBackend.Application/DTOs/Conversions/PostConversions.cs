@@ -50,6 +50,7 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 			post.Id,
 			post.Title,
 			post.Description ?? "",
+			post.Category.Name,
 			post.CreatedBy.Name,
 			post.CreatedAt
 			);

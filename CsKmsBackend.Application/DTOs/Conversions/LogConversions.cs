@@ -7,9 +7,9 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 		public static LogDTO ToDTO(this Log log) => new(
 			log.Id,
 			log.Action,
-			log.PerformedBy,
+			log.UserName,
 			log.EntityType,
-			log.EntityId,
+			log.PostTitle,
 			log.Timestamp);
 
 		public static IEnumerable<LogDTO> ToDTO(this IEnumerable<Log> logs)

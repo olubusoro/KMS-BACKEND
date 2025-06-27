@@ -3,8 +3,8 @@
 	public record LogDTO(
 					  int Id,
 					  string Action,
-					  int PerformedBy,
+					  string PerformedBy,
 					  string EntityType,
-					  int EntityId,
+					  string PostTitle,
 					  DateTime Timestamp);
 }

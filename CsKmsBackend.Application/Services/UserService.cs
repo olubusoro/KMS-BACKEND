@@ -6,7 +6,7 @@ using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.Services
 {
-    public class UserService(IUserRepository userRepo) : IUserService
+    public class UserService(IUserRepository userRepo, IEmailService emailService) : IUserService
 	{
 		public async Task<ResponseKms> ChangeUserPasswordAsync(int id, ChangePasswordDTO changePasswordDTO)
 		{
@@ -25,6 +25,8 @@ namespace CsKmsBackend.Application.Services
 			var selectedDepartments = await userRepo.GetDepartmentsByIdsAsync(userCreationDTO.DepartmentIds);
 			user.Departments = selectedDepartments;
 			var response = await userRepo.CreateAsync(user);
+			if (response.Flag)
+				await emailService.SendWelcomeEmailAsync(user.Email, user.Name, userCreationDTO.Password);
 			return response;
 		}
 		
@@ -33,10 +35,10 @@ namespace CsKmsBackend.Application.Services
 			return await userRepo.DeleteAsync(id);;
 		}
 
-		public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+		public async Task<IEnumerable<UserListDTO>> GetAllUsersAsync()
 		{
 			var users = await userRepo.GetAllAsync();
-			return users.ToDTO();
+			return users.ToListDTO();
 		}
 
 		public async Task<UserDTO?> GetUserByEmailAsync(string email)

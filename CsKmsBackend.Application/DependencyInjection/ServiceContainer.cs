@@ -18,6 +18,7 @@ namespace CsKmsBackend.Application.DependencyInjection
 			services.AddScoped<IAuditLoggerService, AuditLoggerService>();
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
 			services.AddScoped<INotificationService, NotificationService>();
+			services.AddScoped<IEmailService, EmailService>();
 
 
 			return services;

@@ -24,24 +24,31 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-				if (entityType.Equals(EntityType.Post)) { 
+				var userName = context.Users.AsNoTracking().FirstOrDefault(u => u.Id == performedByUserId).Name;
+				if (entityType.Equals(EntityType.Post)) {
+					var post = await context.Posts.Where(p => p.UserId == performedByUserId).OrderByDescending(p => p.CreatedAt).FirstOrDefaultAsync();
 					var log = new Log
 					{
+						UserName = userName,
 						Action = actionType.ToString(),
 						PerformedBy = performedByUserId,
 						EntityType = entityType.ToString(),
-						EntityId = context.Posts.Where(p => p.UserId == performedByUserId).OrderByDescending(p => p.CreatedAt).FirstOrDefault().Id //entityId
+						EntityId = post.Id, //entityId
+						PostTitle = post.Title
 					};
 					context.Logs.Add(log);
 				}
 				else if (entityType.Equals(EntityType.AccessRequest))
 				{
+					var ar = await context.AccessRequests.Where(r => r.UserId == performedByUserId).Include(r=>r.RequestedPost).OrderByDescending(p => p.Id).FirstOrDefaultAsync();
 					var log = new Log
 					{
+						UserName= userName,
 						Action = actionType.ToString(),
 						PerformedBy = performedByUserId,
 						EntityType = entityType.ToString(),
-						EntityId = context.AccessRequests.Where(r => r.UserId == performedByUserId).OrderByDescending(p => p.Id).FirstOrDefault().Id //entityId
+						EntityId = ar.Id, //entityId
+						PostTitle = ar.RequestedPost.Title
 					};
 					context.Logs.Add(log);
 				}
@@ -57,9 +64,17 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-
+				var userName = context.Users.AsNoTracking().FirstOrDefault(u => u.Id == performedByUserId).Name;
+				string postTitle;
+				if (entityType.Equals(EntityType.Post))
+					postTitle = context.Posts.FirstOrDefault(p => p.Id == EntityId).Title;
+				else
+					postTitle = context.AccessRequests.Include(r => r.RequestedPost).FirstOrDefault(r => r.Id == EntityId).RequestedPost.Title;
+				
 				var log = new Log
 				{
+					UserName = userName,
+					PostTitle = postTitle,
 					Action = actionType.ToString(),
 					PerformedBy = performedByUserId,
 					EntityType = entityType.ToString(),

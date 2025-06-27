@@ -30,7 +30,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		// GET: api/users
 		[HttpGet]
 		[Authorize(Roles = "SuperAdmin")]
-		public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
+		public async Task<ActionResult<IEnumerable<UserListDTO>>> GetAllUsers()
 		{
 			var users = await userService.GetAllUsersAsync();
 			return Ok(users);

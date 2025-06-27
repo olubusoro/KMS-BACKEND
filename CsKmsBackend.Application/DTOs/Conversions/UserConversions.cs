@@ -29,6 +29,23 @@ namespace CsKmsBackend.Application.DTOs.Conversions
 								user.Departments.Select(d=>d.Name).ToList(),
 								user.CreatedAt);
 
+		public static UserListDTO ToListDTO(this User user) => new(
+			user.Id,
+			user.Name,
+			user.Email,
+			user.Role.ToString(),
+			user.Departments.Select(d=>d.Name).ToList(),
+			user.CreatedAt
+			);
+
+		public static IEnumerable<UserListDTO> ToListDTO(this  IEnumerable<User> users)
+		{
+			var userListDTOs = new List<UserListDTO>();
+			foreach (var user in users)
+				userListDTOs.Add(ToListDTO(user));
+			return userListDTOs;
+		}
+
 		public static IEnumerable<UserDTO> ToDTO(this IEnumerable<User> users)
 		{
 			var userDTOs = new List<UserDTO>();

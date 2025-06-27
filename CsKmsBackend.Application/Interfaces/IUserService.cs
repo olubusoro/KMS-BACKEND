@@ -8,7 +8,7 @@ namespace CsKmsBackend.Application.Interfaces
 		Task<ResponseKms> CreateUserAsync(UserCreationDTO userCreationDTO);
 		Task<ResponseKms> UpdateUserAsync(UserUpdateDTO userDTO);
 		Task<ResponseKms> DeleteUserAsync(int id);
-		Task<IEnumerable<UserDTO>> GetAllUsersAsync();
+		Task<IEnumerable<UserListDTO>> GetAllUsersAsync();
 		Task<UserDTO?> GetUserByIdAsync(int id);
 		Task<UserDTO?> GetUserByEmailAsync(string email);
 		Task<ResponseKms> ChangeUserPasswordAsync(int id,  ChangePasswordDTO changePasswordDTO);

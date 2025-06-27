@@ -79,7 +79,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			try
 			{
 				var posts = await context.Posts.AsNoTracking()
-					.Include(p=>p.Attachments)
+					.Include(p=>p.Category)
 					.Include(p=>p.CreatedBy).ToListAsync();
 				return posts.Count != 0 ? posts : Enumerable.Empty<Post>();
 			}
