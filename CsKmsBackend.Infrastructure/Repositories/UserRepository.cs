@@ -96,10 +96,18 @@ namespace CsKmsBackend.Infrastructure.Repositories
 			}
 		}
 
-		public async Task<List<Department>> GetDepartmentsByIdsAsync(List<int> ids) =>
-			await context.Departments
-			.Where(d => ids.Contains(d.Id))
-            .ToListAsync();
+		public async Task<List<Department>> GetDepartmentsByIdsAsync(List<int> ids)
+		{
+			try
+			{
+				return await context.Departments
+				.Where(d => ids.Contains(d.Id))
+				.ToListAsync();
+			}
+			catch {
+				return [];
+			}
+		}
 
 		public async Task<ResponseKms> ResetPasswordAsync(User user)
 		{
@@ -157,7 +165,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-				var user = await FindByIdAsync(entity.Id);
+				var user = await GetByAsync(u => u.Id == entity.Id);
 				if (user is null)
 					return new ResponseKms(false, "user not found");
 				MapUpdate(user, entity);

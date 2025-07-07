@@ -66,8 +66,15 @@ namespace CsKmsBackend.Application.Services
 		public async Task<ResponseKms> ResetUserPasswordAsync(int id)
 		{
 			var user = await userRepo.FindByIdAsync(id);
-			var result = await userRepo.ResetPasswordAsync(user!);
-			return result;
+			
+			if (user is not null) { 
+				var result = await userRepo.ResetPasswordAsync(user!);
+				if (result.Flag)
+					await emailService.SendPasswordResetEmailAsync(user.Email, user.Name, "GenericPassword123");
+				return result;
+			}
+
+			return new ResponseKms(false, "User not found");
 		}
 
 		public async Task<ResponseKms> UpdateUserAsync(UserUpdateDTO userDTO)
