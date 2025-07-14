@@ -9,12 +9,19 @@ using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.Services
 {
-    public class DepartmentService(IDepartmentRepository departmentRepo) : IDepartmentService
+    public class DepartmentService(IDepartmentRepository departmentRepo, ICategoryRepository categoryRepo) : IDepartmentService
     {
         public async Task<ResponseKms> CreateDepartmentAsync(CreateDepartmentDTO DepartmentDTO)
         {
             var department = DepartmentDTO.ToEntity();
             var response = await departmentRepo.CreateAsync(department);
+			if (response.Flag)
+				await categoryRepo.CreateAsync(new Category()
+				{
+					Name = "General",
+					Description = "A general category for miscellaneous knowledge posts",
+					Department = department
+				});
             return response;
         }
         public async Task<ResponseKms> DeleteDepartmentAsync(int id)
