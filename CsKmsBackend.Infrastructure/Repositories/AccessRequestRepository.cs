@@ -75,7 +75,7 @@ namespace CsKmsBackend.Infrastructure.Repositories
 		{
 			try
 			{
-				var request = await context.AccessRequests.FirstOrDefaultAsync(predicate);
+				var request = await context.AccessRequests.Include(r=>r.RequestedPost).FirstOrDefaultAsync(predicate);
 				return request is not null && request.Id > 0 ? request : null;
 			}
 			catch
