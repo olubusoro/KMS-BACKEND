@@ -1,10 +1,11 @@
+using CsKmsBackend.Application.DTOs.DepartmentDTOs;
 using CsKmsBackend.Domain.Models;
 
 namespace CsKmsBackend.Application.DTOs.Conversions
 {
     public static class DepartmentConversions
     {
-        public static Department ToEntity(this DepartmentDTO DepartmentDTO) => new Department
+        public static Department ToEntity(this DepartmentUpdateDTO DepartmentDTO) => new Department
         {
             Id = DepartmentDTO.Id,
 			Name = DepartmentDTO.Name,

@@ -1,4 +1,5 @@
 using CsKmsBackend.Application.DTOs;
+using CsKmsBackend.Application.DTOs.DepartmentDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -36,7 +37,7 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 		[HttpPut]
 		[Authorize(Roles = "SuperAdmin")]
-		public async Task<ActionResult<ResponseKms>> UpdateDepartment(DepartmentDTO departmentDTO)
+		public async Task<ActionResult<ResponseKms>> UpdateDepartment(DepartmentUpdateDTO departmentDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
 			var result = await departmentService.UpdateDepartmentAsync(departmentDTO);

@@ -1,5 +1,6 @@
 using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.DTOs.Conversions;
+using CsKmsBackend.Application.DTOs.DepartmentDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Domain.Models;
@@ -41,7 +42,7 @@ namespace CsKmsBackend.Application.Services
 			return department is not null ? department.ToDTO() : null;
 		}
 
-        public async Task<ResponseKms> UpdateDepartmentAsync(DepartmentDTO departmentDTO)
+        public async Task<ResponseKms> UpdateDepartmentAsync(DepartmentUpdateDTO departmentDTO)
 		{
 			var department = departmentDTO.ToEntity();
 			return await departmentRepo.UpdateAsync(department);
