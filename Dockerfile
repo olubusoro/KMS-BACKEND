@@ -12,10 +12,7 @@ COPY ["CsKmsBackend.Domain/CsKmsBackend.Domain.csproj", "CsKmsBackend.Domain/"]
 COPY ["CsKmsBackend.Application/CsKmsBackend.Application.csproj", "CsKmsBackend.Application/"]
 COPY ["CsKmsBackend.Infrastructure/CsKmsBackend.Infrastructure.csproj", "CsKmsBackend.Infrastructure/"]
 COPY ["CsKmsBackend.Presentation/CsKmsBackend.Presentation.csproj", "CsKmsBackend.Presentation/"]
-COPY .config/dotnet-tools.json .config/
-RUN dotnet tool restore
 RUN dotnet restore "./CsKmsBackend.Presentation/CsKmsBackend.Presentation.csproj"
-RUN dotnet tool run dotnet-ef database update -p "./CsKmsBackend.Infrastructure/" -s "./CsKmsBackend.Presentation/" --verbose
 COPY . .
 WORKDIR "/src/CsKmsBackend.Presentation"
 RUN dotnet build "./CsKmsBackend.Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/build
