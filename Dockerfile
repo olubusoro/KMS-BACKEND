@@ -12,6 +12,7 @@ COPY ["CsKmsBackend.Domain/CsKmsBackend.Domain.csproj", "CsKmsBackend.Domain/"]
 COPY ["CsKmsBackend.Application/CsKmsBackend.Application.csproj", "CsKmsBackend.Application/"]
 COPY ["CsKmsBackend.Infrastructure/CsKmsBackend.Infrastructure.csproj", "CsKmsBackend.Infrastructure/"]
 COPY ["CsKmsBackend.Presentation/CsKmsBackend.Presentation.csproj", "CsKmsBackend.Presentation/"]
+COPY .config/dotnet-tools.json .config/
 RUN ping -c 3 google.com || echo "Ping failed, check network!"
 RUN curl -f -s https://api.nuget.org/v3/index.json || echo "NuGet feed access failed, check network!"
 RUN dotnet tool restore
