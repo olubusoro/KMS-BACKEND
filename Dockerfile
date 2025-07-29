@@ -13,11 +13,9 @@ COPY ["CsKmsBackend.Application/CsKmsBackend.Application.csproj", "CsKmsBackend.
 COPY ["CsKmsBackend.Infrastructure/CsKmsBackend.Infrastructure.csproj", "CsKmsBackend.Infrastructure/"]
 COPY ["CsKmsBackend.Presentation/CsKmsBackend.Presentation.csproj", "CsKmsBackend.Presentation/"]
 COPY .config/dotnet-tools.json .config/
-RUN ping -c 3 google.com || echo "Ping failed, check network!"
-RUN curl -f -s https://api.nuget.org/v3/index.json || echo "NuGet feed access failed, check network!"
 RUN dotnet tool restore
 RUN dotnet restore "./CsKmsBackend.Presentation/CsKmsBackend.Presentation.csproj"
-RUN dotnet tool run dotnet-ef database update -p "./CsKmsBackend.Infrastructure/" -s "./CsKmsBackend.Presentation/"
+RUN dotnet tool run dotnet-ef database update -p "./CsKmsBackend.Infrastructure/" -s "./CsKmsBackend.Presentation/" --verbose
 COPY . .
 WORKDIR "/src/CsKmsBackend.Presentation"
 RUN dotnet build "./CsKmsBackend.Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/build
