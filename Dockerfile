@@ -25,4 +25,5 @@ RUN dotnet publish "./CsKmsBackend.Presentation.csproj" -c $BUILD_CONFIGURATION 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY CsKmsBackend.Infrastructure/Data/Seed/users.json /CsKmsBackend.Infrastructure/Data/Seed/users.json
 ENTRYPOINT ["dotnet", "CsKmsBackend.Presentation.dll"]
