@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Hosting;
+using System;
 
 namespace CsKmsBackend.Infrastructure.DependencyInjection
 {
@@ -17,6 +19,19 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 	{
 		public static IServiceCollection AddInfrastructureService(this IServiceCollection services, IConfiguration config)
 		{
+			var connectionString = builder.Configuration.GetConnectionString("PgSqlConnection");
+
+// Convert DATABASE_URL (if needed)
+var envConn = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (!string.IsNullOrWhiteSpace(envConn) && string.IsNullOrWhiteSpace(connectionString))
+{
+    var uri = new Uri(envConn);
+    var userInfo = uri.UserInfo.Split(':');
+    connectionString =
+        $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SslMode=Require;Trust Server Certificate=true;";
+    builder.Configuration["ConnectionStrings:PgSqlConnection"] = connectionString;
+}
+			
 			// DbContext Connection
 			var dbConnection = config.GetConnectionString("SqlConnection") ?? config.GetConnectionString("PgSqlConnection");
 			if (config.GetConnectionString("SqlConnection") is not null)
