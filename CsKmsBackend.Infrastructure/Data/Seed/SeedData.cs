@@ -12,6 +12,7 @@ namespace CsKmsBackend.Infrastructure.Data.Seed
 		{
 			using var scope = services.CreateScope();
 			var db = scope.ServiceProvider.GetRequiredService<KmsDbContext>();
+			await db.Database.MigrateAsync();
 
 			// Users
 			if (!db.Users.Any())
