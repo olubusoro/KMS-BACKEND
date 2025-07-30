@@ -12,8 +12,8 @@ namespace CsKmsBackend.Presentation.Controllers
 	public class UsersController(IUserService userService, ICurrentUserService currentUser) : ControllerBase
 	{
 		// POST: api/users
-		[HttpPost]
-		[Authorize(Roles = "SuperAdmin")]
+		[HttpPost][AllowAnonymous]
+		//[Authorize(Roles = "SuperAdmin")]
 		public async Task<ActionResult<ResponseKms>> CreateUser(UserCreationDTO userCreationDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
