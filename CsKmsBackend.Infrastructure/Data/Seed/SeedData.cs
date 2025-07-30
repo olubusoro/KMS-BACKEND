@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using System;
 using CsKmsBackend.Application.DTOs.UserDTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace CsKmsBackend.Infrastructure.Data.Seed
 {
