@@ -19,7 +19,7 @@ namespace CsKmsBackend.Infrastructure.DependencyInjection
 	{
 		public static IServiceCollection AddInfrastructureService(this IServiceCollection services, IConfiguration config)
 		{
-			var connectionString = builder.Configuration.GetConnectionString("PgSqlConnection");
+			var connectionString = config.GetConnectionString("PgSqlConnection");
 
 // Convert DATABASE_URL (if needed)
 var envConn = Environment.GetEnvironmentVariable("DATABASE_URL");
@@ -29,7 +29,7 @@ if (!string.IsNullOrWhiteSpace(envConn) && string.IsNullOrWhiteSpace(connectionS
     var userInfo = uri.UserInfo.Split(':');
     connectionString =
         $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SslMode=Require;Trust Server Certificate=true;";
-    builder.Configuration["ConnectionStrings:PgSqlConnection"] = connectionString;
+    config["ConnectionStrings:PgSqlConnection"] = connectionString;
 }
 			
 			// DbContext Connection
