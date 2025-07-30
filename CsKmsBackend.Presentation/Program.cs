@@ -57,6 +57,12 @@ if (args.Contains("--seed"))
 	return; // exit after seeding
 }
 
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+	app.Urls.Add($"http://*:{port}");
+}
+
 app.UseCors("AllowReactApp");
 
 app.UseHttpsRedirection();
