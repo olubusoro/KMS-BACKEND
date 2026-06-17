@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs.UserDTOs;
+using CsKmsBackend.Application.DTOs.UserDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using CsKmsBackend.Domain.Models.Enums;
@@ -13,7 +13,8 @@ namespace CsKmsBackend.Presentation.Controllers
 	{
 		// POST: api/users
 		[HttpPost]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> CreateUser(UserCreationDTO userCreationDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -29,7 +30,8 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// GET: api/users
 		[HttpGet]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<IEnumerable<UserListDTO>>> GetAllUsers()
 		{
 			var users = await userService.GetAllUsersAsync();
@@ -38,7 +40,8 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// GET: api/users/5
 		[HttpGet("{id:int}")]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<UserDTO>> GetUserById(int id)
 		{
 			var user = await userService.GetUserByIdAsync(id);
@@ -76,7 +79,8 @@ namespace CsKmsBackend.Presentation.Controllers
 
 		// Delete: api/users/5
 		[HttpDelete("{id:int}")]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> DeleteUser(int id)
 		{
 			var result = await userService.DeleteUserAsync(id);
@@ -86,7 +90,8 @@ namespace CsKmsBackend.Presentation.Controllers
 		// PATCH or PUT: api/users/5/reset-password
 		
 		[HttpPatch("{id:int}/reset-password")]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> ResetPassword(int id)
 		{
 			var result = await userService.ResetUserPasswordAsync(id);

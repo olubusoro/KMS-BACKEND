@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs;
+using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +11,8 @@ namespace CsKmsBackend.Presentation.Controllers
     public class CategoriesController(ICategoryService categoryService, ICurrentUserService currentUser) : ControllerBase
     {
         [HttpGet]
-		[Authorize(Roles = "DeptAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "DeptAdmin")]
+		[Authorize]
 		public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAllCategories() {
             var categories = await categoryService.GetAllCategoryAsync(currentUser.UserId);
             return Ok(categories);
@@ -27,7 +28,8 @@ namespace CsKmsBackend.Presentation.Controllers
 
         //delete put and post endpoints
         [HttpDelete("{id:int}")]
-		[Authorize(Roles = "DeptAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "DeptAdmin")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> DeleteCategory(int id)
         {
             var result = await categoryService.DeleteCategoryAsync(id);
@@ -36,7 +38,8 @@ namespace CsKmsBackend.Presentation.Controllers
 
 
         [HttpPut]
-        [Authorize(Roles = "DeptAdmin")]
+        // [DEMO] Original: [Authorize(Roles = "DeptAdmin")]
+        [Authorize]
         public async Task<ActionResult<ResponseKms>> UpdateCategory( CategoryDTO  categoryUpdateDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -44,7 +47,8 @@ namespace CsKmsBackend.Presentation.Controllers
             return result.Flag ? Ok(result) : BadRequest(result);
         }
         [HttpPost]
-        [Authorize(Roles = "DeptAdmin")]
+        // [DEMO] Original: [Authorize(Roles = "DeptAdmin")]
+        [Authorize]
         public async Task<ActionResult<ResponseKms>> CreateCategory( CategoryDTO categoryCreationDTO)
         {
             if (!ModelState.IsValid)

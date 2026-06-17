@@ -6,5 +6,21 @@
     "Password": "password123",
     "DepartmentIds": [ 0 ],
     "Role": 2
+  },
+  {
+    "Id": 2,
+    "Name": "Dept Admin",
+    "Email": "da@kms.com",
+    "Password": "password123",
+    "DepartmentIds": [ 0 ],
+    "Role": 1
+  },
+  {
+    "Id": 3,
+    "Name": "Staff User",
+    "Email": "staff@kms.com",
+    "Password": "password123",
+    "DepartmentIds": [ 0 ],
+    "Role": 0
   }
 ]

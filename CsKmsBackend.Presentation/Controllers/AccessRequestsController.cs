@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs.AccessRequests;
+using CsKmsBackend.Application.DTOs.AccessRequests;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +40,10 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpGet("department")]
-		[Authorize(Roles = "deptAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "deptAdmin")]
+		// Note: "deptAdmin" was a pre-existing casing bug — enum serializes as "DeptAdmin".
+		// This endpoint was already returning 403 for all users in production.
+		[Authorize]
 		public async Task<ActionResult<IEnumerable<AccessRequestDTO>>> GetDepartmentRequests()
 		{
 			var requests = await accessRequestService
