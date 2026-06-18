@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DependencyInjection;
+using CsKmsBackend.Application.DependencyInjection;
 using CsKmsBackend.Application.Interfaces.RepoInterfaces;
 using CsKmsBackend.Infrastructure.Data;
 using CsKmsBackend.Infrastructure.Middlewares;
@@ -83,9 +83,10 @@ if (!string.IsNullOrWhiteSpace(envConn) && string.IsNullOrWhiteSpace(connectionS
 			{
 				options.AddPolicy("AllowReactApp",
 					policy => policy
-						.WithOrigins(config["Authentication:Audience"]!) // Frontend Server
+						.WithOrigins("http://localhost:5173", "https://kms-lemon.vercel.app") // Frontend Servers (Dev & Prod)
 						.AllowAnyHeader()
-						.AllowAnyMethod());
+						.AllowAnyMethod()
+						.AllowCredentials());
 			});
 
 			return services;
