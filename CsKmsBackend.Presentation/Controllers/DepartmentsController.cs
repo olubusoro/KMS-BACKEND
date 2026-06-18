@@ -12,7 +12,8 @@ namespace CsKmsBackend.Presentation.Controllers
 	public class DepartmentsController(IDepartmentService departmentService) : ControllerBase
 	{
 		[HttpPost]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> CreateDepartment(CreateDepartmentDTO departmentDTO)
 		{
 			var result = await departmentService.CreateDepartmentAsync(departmentDTO);
@@ -36,7 +37,8 @@ namespace CsKmsBackend.Presentation.Controllers
 			return department is not null ? Ok(department) : NotFound();
 		}
 		[HttpPut]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> UpdateDepartment(DepartmentUpdateDTO departmentDTO)
 		{
 			if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -45,7 +47,8 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpDelete("{id:int}")]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<ResponseKms>> DeleteDepartment(int id)
 		{
 			var result = await departmentService.DeleteDepartmentAsync(id);

@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs.FeedbackDTOs;
+using CsKmsBackend.Application.DTOs.FeedbackDTOs;
 using CsKmsBackend.Application.DTOs.UserDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Domain.Models;
@@ -26,7 +26,8 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpGet]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<IEnumerable<FeedbackDTO>>> GetAll()
 		{
 			var feedbacks = await feedbackService.GetAllFeedbackAsync();
@@ -34,7 +35,8 @@ namespace CsKmsBackend.Presentation.Controllers
 		}
 
 		[HttpGet("{id}")]
-		[Authorize(Roles = "SuperAdmin")]
+		// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+		[Authorize]
 		public async Task<ActionResult<FeedbackDTO>> GetById(int id)
 		{
 			var feedback = await feedbackService.GetFeedbackByIdAsync(id);

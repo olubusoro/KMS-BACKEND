@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs.Conversions;
+using CsKmsBackend.Application.DTOs.Conversions;
 using CsKmsBackend.Application.DTOs.PostDTOs;
 using CsKmsBackend.Application.Interfaces;
 using CsKmsBackend.Application.Interfaces.RepoInterfaces;
@@ -136,6 +136,16 @@ namespace CsKmsBackend.Application.Services
 				Title = post.Title
 			};
 
+			// [DEMO] Bypass: grant full access to all posts for any authenticated user.
+			// To restore production visibility checks, remove these 3 lines and
+			// uncomment the original logic block below.
+			result.AccessGranted = true;
+			result.Post = postDTO;
+			return result;
+
+			/* [DEMO] Original visibility logic — preserved for easy reversal.
+			   Remove the early-return block above and uncomment this section.
+
 			// Public – allow access to anyone
 			if (post.Visibility.ToLower() == "public") //Visibility.Public)
 			{
@@ -190,6 +200,7 @@ namespace CsKmsBackend.Application.Services
 			}
 
 			return result;
+			*/
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Application.DTOs;
+using CsKmsBackend.Application.DTOs;
 using CsKmsBackend.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +8,8 @@ namespace CsKmsBackend.Presentation.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles = "SuperAdmin")]
+	// [DEMO] Original: [Authorize(Roles = "SuperAdmin")]
+	[Authorize]
 	public class LogsController(IAuditLoggerService auditLogger) : ControllerBase
 	{
 		[HttpGet]
