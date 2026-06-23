@@ -1,8 +1,10 @@
 using AspNetCoreRateLimit;
+using CsKmsBackend.Infrastructure.Data;
 using CsKmsBackend.Infrastructure.Data.Seed;
 using CsKmsBackend.Infrastructure.DependencyInjection;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 Env.Load();
@@ -45,17 +47,10 @@ builder.Services.AddInfrastructureService(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI();
+// Auto-migrate and seed on startup (idempotent — safe to run on every boot).
+// Migrate() creates any pending tables; seed only inserts users if the table is empty.
+await SeedData.SeedAsync(app.Services);
 
-if (args.Contains("--seed"))
-{
-	Console.WriteLine("?? Running seed process...");
-	await SeedData.SeedAsync(app.Services);
-	Console.WriteLine("? Seeding complete.");
-	return; // exit after seeding
-}
 
 var port = Environment.GetEnvironmentVariable("PORT");
 if (!string.IsNullOrEmpty(port))

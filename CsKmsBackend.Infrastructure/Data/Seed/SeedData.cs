@@ -1,4 +1,4 @@
-﻿using CsKmsBackend.Domain.Models;
+using CsKmsBackend.Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using System;
@@ -18,7 +18,8 @@ namespace CsKmsBackend.Infrastructure.Data.Seed
 			// Users
 			if (!db.Users.Any())
 			{
-				var json = await File.ReadAllTextAsync("../CsKmsBackend.Infrastructure/Data/Seed/users.json");
+				var seedFile = Path.Combine(AppContext.BaseDirectory, "Data", "Seed", "users.json");
+				var json = await File.ReadAllTextAsync(seedFile);
 				var users = JsonSerializer.Deserialize<List<UserCreationDTO>>(json);
 
 				foreach (var u in users)
