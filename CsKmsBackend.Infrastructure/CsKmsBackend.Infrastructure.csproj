@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,6 +27,10 @@
 	  <Folder Include="DependencyInjection\" />
 	  <Folder Include="Repositories\" />
 	  <Folder Include="Data\Config\" />
+	  <!-- Ensure seed file is included in published output so AppContext.BaseDirectory resolves it -->
+	  <Content Include="Data\Seed\users.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
   </ItemGroup>
 
 </Project>
